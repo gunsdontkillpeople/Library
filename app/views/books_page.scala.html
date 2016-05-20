@@ -1,0 +1,52 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+
+@import models.book.Book
+@(books:List[Book])
+
+@main("Books"){
+
+    <ul>
+        <table class="table table-bordered" cellspacing="20">
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>ReleaseDate</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(book <- books) {
+                <tr>
+                    <td>@book.author</td>
+                    <td>@book.title</td>
+                    <td>@book.releaseDate</td>
+                    <td>@book.price</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </ul>
+    <br>
+    <br>
+
+    <form action="@routes.BooksController.addBook()" method="post">
+        <li>Author</li>
+        <input type="text" name="author" value="author"/>
+        <li>Title</li>
+        <input type="text" name="title" value="title"/>
+        <li>ReleaseDate</li>
+        <input type="date" name="releaseDate" />
+        <li>Price</li>
+        <input type="text" name="price" value="300"/>
+        <br>
+        <button>Add book</button>
+
+    </form>
+
+}

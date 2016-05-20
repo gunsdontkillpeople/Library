@@ -6,7 +6,8 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
+
 
 /**
  * Created by mistler on 19.05.16.

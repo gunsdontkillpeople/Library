@@ -14,23 +14,29 @@ import java.util.List;
  */
 public class HomeController extends Controller {
 
-    public Result showBooksPage() {
-        List<Book> books = new Model.Finder(String.class, Book.class).all();
-        return ok(show_books.render(books));
-    }
-
-    public Result addBooksPage() {
-        return ok(add_books.render());
-    }
-
-    /**
-     * An action that renders an HTML page with a welcome message.
-     * The configuration in the <code>routes</code> file means that
-     * this method will be called when the application receives a
-     * <code>GET</code> request with a path of <code>/</code>.
-     */
     public Result index() {
         return ok(index.render("Your new application is ready."));
+    }
+
+    public Result booksPage() {
+        List<Book> books = new Model.Finder(String.class, Book.class).all();
+        return ok(books_page.render(books));
+    }
+
+    public Result instancesPage() {
+        return ok(instances_page.render());
+    }
+
+    public Result usersPage() {
+        return ok(users_page.render());
+    }
+
+    public Result deliveryPointsPage() {
+        return ok(delivery_points_page.render());
+    }
+
+    public Result transfersPage() {
+        return ok(transfers_page.render());
     }
 
 }

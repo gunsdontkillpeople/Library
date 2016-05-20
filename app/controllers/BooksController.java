@@ -15,18 +15,11 @@ import static play.libs.Json.toJson;
  */
 public class BooksController extends Controller {
 
-    public Result addBooks() {
+    public Result addBook() {
 
         Book book = Form.form(Book.class).bindFromRequest().get();
         book.save();
 
-        return redirect(routes.HomeController.index());
-    }
-
-    public Result listBooks() {
-
-        List<Book> books = new Model.Finder(String.class, Book.class).all();
-
-        return ok(toJson(books));
+        return redirect(routes.HomeController.booksPage());
     }
 }

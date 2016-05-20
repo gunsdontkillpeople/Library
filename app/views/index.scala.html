@@ -9,7 +9,7 @@
  * argument is a `String` with the title of the page, the second
  * argument is an `Html` object containing the body of the page.
  *@
-@main("Welcome to Play") {
+@main("Library") {
 
     @*
      * Get an `Html` object by calling the built-in Play welcome
@@ -19,6 +19,9 @@
      * @play20.welcome(message, style = "Java")
     *@
 
-    <a href="@routes.HomeController.addBooksPage">Add books</a>
-    <a href="@routes.HomeController.showBooksPage">Show books</a>
+    <a href="@routes.HomeController.booksPage"          >Books</a><br>
+    <a href="@routes.HomeController.instancesPage"      >Instances</a><br>
+    <a href="@routes.HomeController.usersPage"          >Users</a><br>
+    <a href="@routes.HomeController.deliveryPointsPage" >DeliveryPoints</a><br>
+    <a href="@routes.HomeController.transfersPage"      >Transfers</a><br>
 }
