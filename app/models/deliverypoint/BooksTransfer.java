@@ -2,9 +2,13 @@ package models.deliverypoint;
 
 
 import com.avaje.ebean.Model;
+import models.book.BookInstance;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,13 +20,21 @@ public class BooksTransfer extends Model {
     @Id
     public Long id;
 
-    public Long bookInstanceId;
+    @OneToOne
+    @NotNull
+    public BookInstance bookInstance;
 
-    public Long deliveryPointSrcId;
+    @ManyToOne
+    @NotNull
+    public DeliveryPoint srcDeliveryPoint;
 
-    public Long deliveryPointDstId;
+    @ManyToOne
+    @NotNull
+    public DeliveryPoint dstDeliveryPoint;
 
+    @NotNull
     public Date sendDate;
 
+    @NotNull
     public Date receiveDate;
 }

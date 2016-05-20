@@ -5,20 +5,20 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Date;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by mistler on 19.05.16.
  */
 @Entity
-public class UserFineBan extends Model {
+public class StudentUserCategoryCharacteristic extends Model {
 
     @Id
     public Long id;
 
-    public String cause;
+    @NotNull
+    public String studentFaculty;
 
-    public Date start;
-
-    public Date end;
+    @NotNull
+    public String studentGroup;
 }

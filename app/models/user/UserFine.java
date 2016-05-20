@@ -5,6 +5,8 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,7 +18,16 @@ public class UserFine extends Model {
     @Id
     public Long id;
 
-    public Long userId;
+    @ManyToOne
+    @NotNull
+    public User user;
 
-    public Long fineId;
+    @NotNull
+    public Date start;
+
+    @NotNull
+    public Date end;
+
+    @NotNull
+    public Double price;
 }

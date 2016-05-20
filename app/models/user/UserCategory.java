@@ -5,6 +5,8 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,9 +18,14 @@ public class UserCategory extends Model {
     @Id
     public Long id;
 
-    public Long userCategoryPrivilegeId;
+    @ManyToOne
+    @NotNull
+    public UserCategoryPrivilege userCategoryPrivilege;
 
-    public Long userCategoryCharacteristicId;
+    @ManyToOne
+    @NotNull
+    public UserCategoryCharacteristic userCategoryCharacteristic;
 
+    @NotNull
     public String name;
 }

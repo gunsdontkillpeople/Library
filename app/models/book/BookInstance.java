@@ -5,6 +5,8 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,7 +18,10 @@ public class BookInstance extends Model {
     @Id
     public Long id;
 
-    public Long bookId;
+    @ManyToOne
+    @NotNull
+    public Book book;
 
-    public Date deliveryDate;
+    @NotNull
+    public Date date;
 }

@@ -5,6 +5,8 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -15,6 +17,8 @@ public class DeliveryPoint extends Model {
 
     @Id
     public Long id;
-    
-    public Long deliveryPointTypeId;
+
+    @ManyToOne
+    @NotNull
+    public DeliveryPointType deliveryPointType;
 }

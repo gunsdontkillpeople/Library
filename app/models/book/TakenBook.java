@@ -2,9 +2,13 @@ package models.book;
 
 
 import com.avaje.ebean.Model;
+import models.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,13 +20,21 @@ public class TakenBook extends Model {
     @Id
     public Long id;
 
-    public Long userId;
+    @OneToOne
+    @NotNull
+    public User user;
 
-    public Long takeBookStatus;
+    @ManyToOne
+    @NotNull
+    public TakenBookStatus takenBookStatus;
 
-    public Long bookInstanceId;
+    @OneToOne
+    @NotNull
+    public BookInstance bookInstance;
 
+    @NotNull
     public Date takeDate;
 
+    @NotNull
     public Date returnDate;
 }

@@ -17,12 +17,6 @@ public class LibraryController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result addBooks() {
 
-        Book book = Form.form(Book.class).bindFromRequest().get();
-        book.save();
-
-        return redirect(routes.HomeController.index());
-    }
 
 }

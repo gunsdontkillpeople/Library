@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,5 +17,6 @@ public class UserCategoryPrivilege extends Model {
     @Id
     public Long id;
 
+    @NotNull
     public String name;
 }

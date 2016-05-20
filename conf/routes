@@ -14,4 +14,10 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 # My routes
 
-POST    /addBooks                   controllers.LibraryController.addBooks()
+GET     /addBooksPage               controllers.HomeController.addBooksPage()
+GET     /showBooksPage               controllers.HomeController.showBooksPage()
+
+GET     /listBooks                  controllers.BooksController.listBooks()
+
+
+POST    /addBooks                   controllers.BooksController.addBooks()

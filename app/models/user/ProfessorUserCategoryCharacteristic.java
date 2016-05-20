@@ -1,10 +1,11 @@
-package models.user.professor;
+package models.user;
 
 
 import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -16,9 +17,12 @@ public class ProfessorUserCategoryCharacteristic extends Model {
     @Id
     public Long id;
 
-    public Long professorChairId;
+    @NotNull
+    public String professorChair;
 
-    public Long professorRankId;
+    @NotNull
+    public String professorRank;
 
-    public Long professorDegreeId;
+    @NotNull
+    public String professorDegree;
 }
