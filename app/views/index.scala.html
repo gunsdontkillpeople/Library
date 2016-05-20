@@ -15,6 +15,13 @@
      * Get an `Html` object by calling the built-in Play welcome
      * template and passing a `String` message.
      *@
-    @play20.welcome(message, style = "Java")
+    @*
+     * @play20.welcome(message, style = "Java")
+    *@
+    <form action="@routes.LibraryController.addBooks()" method="post">
+        <input type="text" author="author" />
+        <button>Submit</button>
+
+    </form>
 
 }

@@ -10,6 +10,7 @@ import java.sql.Date;
 /**
  * Created by mistler on 19.05.16.
  */
+@Entity
 public class Book extends Model {
 
     @Id
@@ -19,7 +20,7 @@ public class Book extends Model {
 
     public String title;
 
-    public Date release_date;
+    public Date releaseDate;
 
     public Double price;
 }
