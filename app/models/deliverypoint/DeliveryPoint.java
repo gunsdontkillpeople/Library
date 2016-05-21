@@ -26,4 +26,9 @@ public class DeliveryPoint extends Model {
     @ManyToOne
     @NotNull
     public DeliveryPointType deliveryPointType;
+
+    @Override
+    public String toString(){
+        return "Name: " + name + "\t\tType: " + deliveryPointType;
+    }
 }

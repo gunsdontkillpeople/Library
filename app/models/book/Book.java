@@ -27,4 +27,9 @@ public class Book extends Model {
     public Date releaseDate;
 
     public Double price;
+
+    @Override
+    public String toString(){
+        return "Author: " + author + "\t\tTitle: " + title;
+    }
 }

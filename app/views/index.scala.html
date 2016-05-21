@@ -2,7 +2,7 @@
  * This template takes a single argument, a String containing a
  * message to display.
  *@
-@(message: String)
+@(selectedBook: String, selectedDeliveryPoint: String)
 
 @*
  * Call the `main` template with two arguments. The first
@@ -24,4 +24,26 @@
     <a href="@routes.LibraryController.usersPage"          >Users</a><br>
     <a href="@routes.LibraryController.deliveryPointsPage" >DeliveryPoints</a><br>
     <a href="@routes.LibraryController.transfersPage"      >Transfers</a><br>
+    <br>
+    <br>
+    <b>Here you can see what you have selected</b>
+
+    <table class="table table-bordered" cellspacing="20" border="10">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Book</td>
+                <td>@selectedBook</td>
+            </tr>
+            <tr>
+                <td>Delivery point</td>
+                <td>@selectedDeliveryPoint</td>
+            </tr>
+        </tbody>
+    </table>
 }

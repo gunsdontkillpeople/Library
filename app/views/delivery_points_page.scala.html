@@ -6,7 +6,7 @@
  *@
 
 @import models.deliverypoint.DeliveryPoint
-@(deliveryPoints:List[DeliveryPoint], deliveryPointType: Integer)
+@(deliveryPoints:List[DeliveryPoint], deliveryPointType: Integer, deliveryPointId: Long)
 
 @main("Delivery points"){
 
@@ -16,7 +16,11 @@
     <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
         <p><select name="Delivery Points" size="@deliveryPoints.size()">
         @for(point <- deliveryPoints) {
-            <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType)
+            @if(deliveryPointId == point.id){
+                <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType)
+            }else{
+                <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType)
+            }
         }
         </select>
         <button>Work with selected delivery point</button>

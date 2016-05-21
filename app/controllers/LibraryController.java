@@ -22,9 +22,14 @@ public class LibraryController extends Controller {
 
     private int deliveryPointType = 0;
     private long selectedBookId = 0;
+    private long selectedDeliveryPointId = 0;
 
     public Result index() {
-        return ok(index.render("Your new application is ready."));
+        Book book = (Book) new Model.Finder(String.class, Book.class).byId(selectedBookId);
+        DeliveryPoint point = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(selectedDeliveryPointId);
+        String bookString = (book == null) ? "Not selected" : book.toString();
+        String deliveryPointString = (point == null) ? "Not selected" : point.toString();
+        return ok(index.render(bookString, deliveryPointString));
     }
 
     public Result booksPage() {
@@ -43,7 +48,7 @@ public class LibraryController extends Controller {
 
     public Result deliveryPointsPage() {
         List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
-        return ok(delivery_points_page.render(points, deliveryPointType));
+        return ok(delivery_points_page.render(points, deliveryPointType, selectedDeliveryPointId));
     }
 
     public Result transfersPage() {
@@ -83,7 +88,10 @@ public class LibraryController extends Controller {
     }
 
     public Result selectDeliveryPoint() {
-        return redirect(routes.LibraryController.index());
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPointId = Integer.decode(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.deliveryPointsPage());
     }
 
     public Result selectBook() {
