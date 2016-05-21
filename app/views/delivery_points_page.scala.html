@@ -15,8 +15,8 @@
 
     <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
         <p><select name="Delivery Points" size="@deliveryPoints.size()">
-        @for(i <- 0 until deliveryPoints.size()) {
-            <option value="@i">@deliveryPoints.get(i).name, Address: @deliveryPoints.get(i).address (Type: @deliveryPoints.get(i).deliveryPointType)
+        @for(point <- deliveryPoints) {
+            <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType)
         }
         </select>
         <button>Work with selected delivery point</button>

@@ -21,6 +21,7 @@ import java.util.Map;
 public class LibraryController extends Controller {
 
     private int deliveryPointType = 0;
+    private Book book = null;
 
     public Result index() {
         return ok(index.render("Your new application is ready."));
@@ -33,8 +34,7 @@ public class LibraryController extends Controller {
 
     public Result instancesPage() {
         List<Book> books = new Model.Finder(String.class, Book.class).all();
-        int i = 0;
-        return ok(instances_page.render(books, i));
+        return ok(instances_page.render(books));
     }
 
     public Result usersPage() {
@@ -61,7 +61,6 @@ public class LibraryController extends Controller {
     public Result addDeliveryPoint() {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
-
         DeliveryPointType t;
         if(deliveryPointType == 0){
             t = DeliveryPointType.READING_ROOM;
@@ -88,7 +87,10 @@ public class LibraryController extends Controller {
     }
 
     public Result selectBook() {
-        return play.mvc.Results.TODO;
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        book = (Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"));
+        return redirect(routes.LibraryController.instancesPage());
     }
 
 }
