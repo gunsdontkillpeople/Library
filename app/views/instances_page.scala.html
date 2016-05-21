@@ -6,7 +6,7 @@
  *@
 
 @import models.book.Book
-@(books:List[Book])
+@(books:List[Book], id:Long)
 
 @main("Instances"){
 
@@ -17,7 +17,11 @@
     <form action="@routes.LibraryController.selectBook" method="post">
         <p><select name="Books" size="@books.size()">
             @for(book <- books) {
-                <option value="@book.id">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
+                @if(id == book.id){
+                    <option value="@book.id" selected="selected">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
+                }else{
+                    <option value="@book.id">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
+                }
             }
         </select>
         <button>Select book</button>

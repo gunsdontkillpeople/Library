@@ -21,7 +21,7 @@ import java.util.Map;
 public class LibraryController extends Controller {
 
     private int deliveryPointType = 0;
-    private Book book = null;
+    private long selectedBookId = 0;
 
     public Result index() {
         return ok(index.render("Your new application is ready."));
@@ -34,7 +34,7 @@ public class LibraryController extends Controller {
 
     public Result instancesPage() {
         List<Book> books = new Model.Finder(String.class, Book.class).all();
-        return ok(instances_page.render(books));
+        return ok(instances_page.render(books, selectedBookId));
     }
 
     public Result usersPage() {
@@ -89,7 +89,7 @@ public class LibraryController extends Controller {
     public Result selectBook() {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
-        book = (Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"));
+        selectedBookId = ((Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"))).id;
         return redirect(routes.LibraryController.instancesPage());
     }
 

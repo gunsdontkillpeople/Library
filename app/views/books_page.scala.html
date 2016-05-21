@@ -12,45 +12,62 @@
 
     <a href="@routes.LibraryController.index()">Return to index page</a>
 
-    <p>Table with books registered in library</p>
+    <table class="table table-bordered" cellspacing="20">
+        <thead>
+            <tr>
+                <th>Books registered in library</th>
+                <th>Register books in library</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
 
-    <ul>
-        <table class="table table-bordered" cellspacing="20">
-            <thead>
-                <tr>
-                    <th>Author</th>
-                    <th>Title</th>
-                    <th>ReleaseDate</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-            @for(book <- books) {
-                <tr>
-                    <td>@book.author</td>
-                    <td>@book.title</td>
-                    <td>@book.releaseDate</td>
-                    <td>@book.price</td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    </ul>
-    <br>
-    <br>
 
-    <form action="@routes.LibraryController.addBook()" method="post">
-        <li>Author</li>
-        <input type="text" name="author" value="author"/>
-        <li>Title</li>
-        <input type="text" name="title" value="title"/>
-        <li>ReleaseDate</li>
-        <input type="date" name="releaseDate" />
-        <li>Price</li>
-        <input type="text" name="price" value="300"/>
-        <br>
-        <button>Add book</button>
+                    <ul>
+                        <table class="table table-bordered" cellspacing="20" border="100">
+                            <thead>
+                                <tr>
+                                    <th>Author</th>
+                                    <th>Title</th>
+                                    <th>ReleaseDate</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @for(book <- books) {
+                                <tr>
+                                    <td>@book.author</td>
+                                    <td>@book.title</td>
+                                    <td>@book.releaseDate</td>
+                                    <td>@book.price</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </ul>
 
-    </form>
 
+                </td>
+                <td>
+
+                    <form action="@routes.LibraryController.addBook()" method="post">
+                        <li>Author</li>
+                        <input type="text" name="author" value="author"/>
+                        <li>Title</li>
+                        <input type="text" name="title" value="title"/>
+                        <li>ReleaseDate</li>
+                        <input type="date" name="releaseDate" />
+                        <li>Price</li>
+                        <input type="text" name="price" value="300"/>
+                        <br>
+                        <button>Add book</button>
+
+                    </form>
+
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }
