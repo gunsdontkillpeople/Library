@@ -26,8 +26,13 @@
 
     <form action="@routes.LibraryController.addDeliveryPointType" method="post">
         <p><select name="Delivery Points">
-            <option value="0">Reading room
-            <option value="1">Delivery desk
+            @if(deliveryPointType == 0) {
+                <option value="0" selected="selected">Reading room
+                <option value="1">Delivery desk
+            }else{
+                <option value="0">Reading room
+                <option value="1" selected="selected">Delivery desk
+            }
         </select>
             <button>Select</button>
     </form>
