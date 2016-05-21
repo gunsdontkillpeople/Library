@@ -10,6 +10,10 @@
 
 @main("Books"){
 
+    <a href="@routes.LibraryController.index()">Return to index page</a>
+
+    <p>Table with books registered in library</p>
+
     <ul>
         <table class="table table-bordered" cellspacing="20">
             <thead>
@@ -35,7 +39,7 @@
     <br>
     <br>
 
-    <form action="@routes.BooksController.addBook()" method="post">
+    <form action="@routes.LibraryController.addBook()" method="post">
         <li>Author</li>
         <input type="text" name="author" value="author"/>
         <li>Title</li>

@@ -13,13 +13,13 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 # Pages
 
-GET     /                           controllers.HomeController.index
-GET     /books                      controllers.HomeController.booksPage
-GET     /instances                  controllers.HomeController.instancesPage
-GET     /users                      controllers.HomeController.usersPage
-GET     /deliveryPoints             controllers.HomeController.deliveryPointsPage
-GET     /transfers                  controllers.HomeController.transfersPage
+GET     /                           controllers.LibraryController.index
+GET     /books                      controllers.LibraryController.booksPage
+GET     /instances                  controllers.LibraryController.instancesPage
+GET     /users                      controllers.LibraryController.usersPage
+GET     /deliveryPoints             controllers.LibraryController.deliveryPointsPage
+GET     /transfers                  controllers.LibraryController.transfersPage
 
 # Posts
 
-POST    /addBooks                   controllers.BooksController.addBook()
+POST    /addBooks                   controllers.LibraryController.addBook()
