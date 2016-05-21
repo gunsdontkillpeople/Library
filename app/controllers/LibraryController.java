@@ -2,18 +2,25 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import models.book.Book;
+import models.deliverypoint.DeliveryPoint;
+import models.deliverypoint.DeliveryPointType;
+import play.data.DynamicForm;
 import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
 public class LibraryController extends Controller {
+
+    private int deliveryPointType = 0;
 
     public Result index() {
         return ok(index.render("Your new application is ready."));
@@ -35,7 +42,8 @@ public class LibraryController extends Controller {
     }
 
     public Result deliveryPointsPage() {
-        return ok(delivery_points_page.render());
+        List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
+        return ok(delivery_points_page.render(points, deliveryPointType));
     }
 
     public Result transfersPage() {
@@ -48,6 +56,39 @@ public class LibraryController extends Controller {
         book.save();
 
         return redirect(routes.LibraryController.booksPage());
+    }
+
+    public Result addDeliveryPoint() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+
+        DeliveryPointType t;
+        if(deliveryPointType == 0){
+            t = DeliveryPointType.READING_ROOM;
+        }else{
+            t = DeliveryPointType.DELIVERY_DESK;
+        }
+        DeliveryPoint deliveryPoint = new DeliveryPoint();
+        deliveryPoint.name = data.get("name");
+        deliveryPoint.address = data.get("address");
+        deliveryPoint.deliveryPointType = t;
+        deliveryPoint.save();
+        return redirect(routes.LibraryController.deliveryPointsPage());
+    }
+
+    public Result addDeliveryPointType() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        deliveryPointType = Integer.decode(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.deliveryPointsPage());
+    }
+
+    public Result selectDeliveryPoint() {
+        return redirect(routes.LibraryController.index());
+    }
+
+    public Result selectBook() {
+        return play.mvc.Results.TODO;
     }
 
 }

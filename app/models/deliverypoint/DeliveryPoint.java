@@ -17,6 +17,12 @@ public class DeliveryPoint extends Model {
     @Id
     public Long id;
 
+    @NotNull
+    public String name;
+
+    @NotNull
+    public String address;
+
     @ManyToOne
     @NotNull
     public DeliveryPointType deliveryPointType;

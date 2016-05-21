@@ -22,4 +22,11 @@ GET     /transfers                  controllers.LibraryController.transfersPage
 
 # Posts
 
-POST    /addBooks                   controllers.LibraryController.addBook()
+POST    /addBooks                   controllers.LibraryController.addBook
+POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint
+POST    /addDeliveryPointType       controllers.LibraryController.addDeliveryPointType
+
+
+# Selects
+POST    /selectDeliveryPoint        controllers.LibraryController.selectDeliveryPoint
+POST    /selectBook                 controllers.LibraryController.selectBook

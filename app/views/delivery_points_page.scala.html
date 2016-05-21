@@ -5,7 +5,42 @@
  * object to insert into the body of the page.
  *@
 
+@import models.deliverypoint.DeliveryPoint
+@(deliveryPoints:List[DeliveryPoint], deliveryPointType: Integer)
+
 @main("Delivery points"){
+
     <a href="@routes.LibraryController.index()">Return to index page</a>
 
+
+    <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
+        <p><select name="Delivery Points" size="@deliveryPoints.size()">
+        @for(i <- 0 until deliveryPoints.size()) {
+            <option value="@i">@deliveryPoints.get(i).name, Address: @deliveryPoints.get(i).address (Type: @deliveryPoints.get(i).deliveryPointType)
+        }
+        </select>
+        <button>Work with selected delivery point</button>
+    </form>
+
+    <p>To register a new delivery point please use the following form</p>
+
+    <form action="@routes.LibraryController.addDeliveryPointType" method="post">
+        <p><select name="Delivery Points">
+            <option value="0">Reading room
+            <option value="1">Delivery desk
+        </select>
+            <button>Select</button>
+    </form>
+
+    <form action="@routes.LibraryController.addDeliveryPoint" method="post">
+
+        <li>Name of the point</li>
+        <input type="text" name="name" value="name"/>
+
+        <li>Address</li>
+        <input type="text" name="address" value="address"/>
+        <br>
+        <button>Add delivery point</button>
+
+    </form>
 }

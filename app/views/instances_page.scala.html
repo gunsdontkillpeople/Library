@@ -12,12 +12,12 @@
 
     <a href="@routes.LibraryController.index()">Return to index page</a>
 
-    <p>Please select books that library knows and to add instances of it</p>
+    <p>Please select books that library knows to add instances of it</p>
 
-    <form action="@routes.LibraryController." method="post">
+    <form action="@routes.LibraryController.selectBook" method="post">
         <p><select name="Books" size="@books.size()">
             @for(i <- 0 until books.size()) {
-                <option value="@i">@books.get(i).author, @books.get(i).title (@books.get(i).releaseDate, @books.get(i).price)<option>
+                <option value="@i">@books.get(i).author, @books.get(i).title (@books.get(i).releaseDate, @books.get(i).price)
             }
         </select>
 

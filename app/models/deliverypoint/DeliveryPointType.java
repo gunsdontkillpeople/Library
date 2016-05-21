@@ -2,21 +2,27 @@ package models.deliverypoint;
 
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.EnumValue;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import java.sql.Date;
 
 /**
  * Created by mistler on 19.05.16.
  */
-@Entity
-public class DeliveryPointType extends Model {
 
-    @Id
-    public Long id;
+public enum DeliveryPointType{
+    @EnumValue("DESK")
+    DELIVERY_DESK("DESK"),
+    @EnumValue("ROOM")
+    READING_ROOM("ROOM");
 
-    @NotNull
-    public String name;
+    String dbValue;
+
+    DeliveryPointType(String dbValue) {
+        this.dbValue = dbValue;
+    }
+
+    public String getValue() {
+        return dbValue;
+    }
 }
