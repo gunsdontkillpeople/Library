@@ -1,0 +1,36 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+
+@import models.book.Book
+@(books:List[Book], selectedBookId:Long, selectedDeliveryPointId:Long, booksInDeliveryPoint: List[Book])
+
+@main("Instances"){
+
+    <a href="@routes.LibraryController.index">Return to index page</a>
+
+    <br>
+    <p>Selected book in the library</p>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Point name</th>
+                <th>Point address</th>
+                <th>Point type</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+}

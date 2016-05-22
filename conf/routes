@@ -23,6 +23,7 @@ GET     /transfers                  controllers.LibraryController.transfersPage
 # Posts
 
 POST    /addBooks                   controllers.LibraryController.addBook
+POST    /addInstance                controllers.LibraryController.addInstance
 POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint
 POST    /addDeliveryPointType       controllers.LibraryController.addDeliveryPointType
 

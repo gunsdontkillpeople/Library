@@ -14,7 +14,7 @@
 
 
     <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
-        <p><select name="Delivery Points" size="@deliveryPoints.size()">
+        <p><select name="Delivery Points" size="@deliveryPoints.size()" required>
         @for(point <- deliveryPoints) {
             @if(deliveryPointId == point.id){
                 <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType)
@@ -44,10 +44,10 @@
     <form action="@routes.LibraryController.addDeliveryPoint" method="post">
 
         <li>Name of the point</li>
-        <input type="text" name="name" value="name"/>
+        <input type="text" name="name" value="name" required/>
 
         <li>Address</li>
-        <input type="text" name="address" value="address"/>
+        <input type="text" name="address" value="address" required/>
         <br>
         <button>Add delivery point</button>
 

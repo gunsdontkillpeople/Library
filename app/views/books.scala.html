@@ -25,7 +25,7 @@
 
 
                     <ul>
-                        <table class="table table-bordered" cellspacing="20" border="100">
+                        <table class="table table-bordered" cellspacing="20" border="10">
                             <thead>
                                 <tr>
                                     <th>Author</th>
@@ -53,11 +53,11 @@
 
                     <form action="@routes.LibraryController.addBook()" method="post">
                         <li>Author</li>
-                        <input type="text" name="author" value="author"/>
+                        <input type="text" name="author" value="author" required/>
                         <li>Title</li>
-                        <input type="text" name="title" value="title"/>
+                        <input type="text" name="title" value="title" required/>
                         <li>ReleaseDate</li>
-                        <input type="date" name="releaseDate" />
+                        <input type="date" name="releaseDate"/>
                         <li>Price</li>
                         <input type="text" name="price" value="300"/>
                         <br>
