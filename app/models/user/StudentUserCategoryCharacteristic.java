@@ -3,8 +3,7 @@ package models.user;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -14,7 +13,12 @@ import javax.validation.constraints.NotNull;
 public class StudentUserCategoryCharacteristic extends Model {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
+
+    @NotNull
+    @OneToOne
+    public LibraryUser libraryUser;
 
     @NotNull
     public String studentFaculty;

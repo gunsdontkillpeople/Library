@@ -3,9 +3,7 @@ package models.deliverypoint;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,6 +13,7 @@ import javax.validation.constraints.NotNull;
 public class DeliveryPoint extends Model {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
 
     @NotNull
@@ -29,6 +28,6 @@ public class DeliveryPoint extends Model {
 
     @Override
     public String toString(){
-        return "Name: " + name + "\t\tType: " + deliveryPointType;
+        return "Name: " + name + "\t\tType: " + deliveryPointType.name;
     }
 }

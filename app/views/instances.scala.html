@@ -7,7 +7,8 @@
 
 @import models.book.Book
 @import utils.Pair
-@(books:List[Book], selectedBookId:Long, selectedDeliveryPointId:Long, booksInDeliveryPoint: List[Pair[Book,Long]])
+@import models.deliverypoint.DeliveryPoint
+@(books:List[Book], selectedBook:Book, selectedDeliveryPoint:DeliveryPoint, booksInDeliveryPoint: List[Pair[Book,Long]])
 
 @main("Instances"){
 
@@ -18,7 +19,7 @@
     <form action="@routes.LibraryController.selectBook" method="post">
         <p><select name="Books" size="@books.size()" required>
             @for(book <- books) {
-                @if(selectedBookId == book.id){
+                @if(selectedBook != null && selectedBook.id == book.id){
                     <option value="@book.id" selected="selected">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
                 }else{
                     <option value="@book.id">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
@@ -35,17 +36,17 @@
         <input type="date" name="date" required>
         <p>Amount of instances arrived</p>
         <input type="number" name="amount" required>
-        @if(selectedBookId == null) {
+        @if(selectedBook == null) {
             <button disabled>Please select the book first</button>
         }else {
-            @if(selectedDeliveryPointId == null) {
+            @if(selectedDeliveryPoint == null) {
                 <button disabled>Please select delivery point first</button>
             } else {
                 <button>Add to the library</button>
             }
         }
     </form>
-    @if(selectedDeliveryPointId != null){
+    @if(selectedDeliveryPoint != null){
         <br>
         <p>All books in selected delivery point</p>
         <br>

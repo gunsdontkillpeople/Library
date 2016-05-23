@@ -5,24 +5,25 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.EnumValue;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by mistler on 19.05.16.
  */
+@Entity
+public class DeliveryPointType extends Model{
 
-public enum DeliveryPointType{
-    @EnumValue("DESK")
-    DELIVERY_DESK("DESK"),
-    @EnumValue("ROOM")
-    READING_ROOM("ROOM");
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    public Long id;
 
-    String dbValue;
+    @NotNull
+    public String name;
 
-    DeliveryPointType(String dbValue) {
-        this.dbValue = dbValue;
-    }
-
-    public String getValue() {
-        return dbValue;
+    public DeliveryPointType(String name){
+        this.name = name;
     }
 }

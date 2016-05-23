@@ -25,9 +25,11 @@ GET     /transfers                  controllers.LibraryController.transfersPage
 POST    /addBooks                   controllers.LibraryController.addBook
 POST    /addInstance                controllers.LibraryController.addInstance
 POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint
-POST    /addDeliveryPointType       controllers.LibraryController.addDeliveryPointType
+POST    /addUser                    controllers.LibraryController.addUser
 
 
 # Selects
 POST    /selectDeliveryPoint        controllers.LibraryController.selectDeliveryPoint
+POST    /addDeliveryPointType       controllers.LibraryController.selectDeliveryPointType
 POST    /selectBook                 controllers.LibraryController.selectBook
+POST    /selectUserCategory         controllers.LibraryController.selectUserCategory

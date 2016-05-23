@@ -3,9 +3,7 @@ package models.user;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -16,11 +14,12 @@ import java.util.Date;
 public class UserFine extends Model {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
 
     @ManyToOne
     @NotNull
-    public User user;
+    public LibraryUser libraryUser;
 
     @NotNull
     public Date start;

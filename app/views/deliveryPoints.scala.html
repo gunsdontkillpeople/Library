@@ -6,7 +6,8 @@
  *@
 
 @import models.deliverypoint.DeliveryPoint
-@(deliveryPoints:List[DeliveryPoint], deliveryPointType: Integer, deliveryPointId: Long)
+@import models.deliverypoint.DeliveryPointType
+@(deliveryPointTypes: List[DeliveryPointType], deliveryPoints:List[DeliveryPoint], deliveryPointType: DeliveryPointType, deliveryPoint: DeliveryPoint)
 
 @main("Delivery points"){
 
@@ -16,10 +17,10 @@
     <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
         <p><select name="Delivery Points" size="@deliveryPoints.size()" required>
         @for(point <- deliveryPoints) {
-            @if(deliveryPointId == point.id){
-                <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType)
+            @if(deliveryPoint != null && deliveryPoint.id == point.id){
+                <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
             }else{
-                <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType)
+                <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
             }
         }
         </select>
@@ -28,14 +29,14 @@
 
     <p>To register a new delivery point please use the following form</p>
 
-    <form action="@routes.LibraryController.addDeliveryPointType" method="post">
-        <p><select name="Delivery Points">
-            @if(deliveryPointType == 0) {
-                <option value="0" selected="selected">Reading room
-                <option value="1">Delivery desk
-            }else{
-                <option value="0">Reading room
-                <option value="1" selected="selected">Delivery desk
+    <form action="@routes.LibraryController.selectDeliveryPointType" method="post">
+        <p><select name="Delivery Points" size="@deliveryPointTypes.size()">
+            @for(point <- deliveryPointTypes){
+                @if(deliveryPointType != null && deliveryPointType.id == point.id) {
+                    <option value="@point.id" selected="selected">@point.name
+                }else{
+                    <option value="@point.id">@point.name
+                }
             }
         </select>
             <button>Select</button>

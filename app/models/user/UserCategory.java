@@ -3,9 +3,7 @@ package models.user;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
@@ -16,16 +14,13 @@ import java.sql.Date;
 public class UserCategory extends Model {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
-
-    @ManyToOne
-    @NotNull
-    public UserCategoryPrivilege userCategoryPrivilege;
-
-    @ManyToOne
-    @NotNull
-    public UserCategoryCharacteristic userCategoryCharacteristic;
 
     @NotNull
     public String name;
+
+    public UserCategory(String name){
+        this.name = name;
+    }
 }

@@ -2,12 +2,9 @@ package models.book;
 
 
 import com.avaje.ebean.Model;
-import models.user.User;
+import models.user.LibraryUser;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -18,11 +15,12 @@ import java.util.Date;
 public class TakenBook extends Model {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
 
     @OneToOne
     @NotNull
-    public User user;
+    public LibraryUser libraryUser;
 
     @ManyToOne
     @NotNull

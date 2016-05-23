@@ -8,9 +8,7 @@ import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
 import utils.Pair;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +22,7 @@ import java.util.Map;
 public class BookInstance extends Model {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Long id;
 
     @ManyToOne

@@ -6,7 +6,8 @@
  *@
 
 @import models.book.Book
-@(books:List[Book], selectedBookId:Long, selectedDeliveryPointId:Long, booksInDeliveryPoint: List[Book])
+@import models.deliverypoint.DeliveryPoint
+@(books:List[Book], selectedBook:Book, selectedDeliveryPoint:DeliveryPoint, booksInDeliveryPoint: List[Book])
 
 @main("Instances"){
 
