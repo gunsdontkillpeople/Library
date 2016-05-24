@@ -10,12 +10,8 @@
 @(deliveryPointTypes: List[DeliveryPointType], deliveryPoints:List[DeliveryPoint], deliveryPointType: DeliveryPointType, deliveryPoint: DeliveryPoint)
 
 @main("Delivery points"){
-
-    <a href="@routes.LibraryController.index()">Return to index page</a>
-
-
     <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
-        <p><select name="Delivery Points" size="@deliveryPoints.size()" required>
+        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
         @for(point <- deliveryPoints) {
             @if(deliveryPoint != null && deliveryPoint.id == point.id){
                 <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
@@ -24,13 +20,13 @@
             }
         }
         </select>
-        <button>Work with selected delivery point</button>
+            <br><button>Work with selected delivery point</button>
     </form>
 
     <p>To register a new delivery point please use the following form</p>
 
     <form action="@routes.LibraryController.selectDeliveryPointType" method="post">
-        <p><select name="Delivery Points" size="@deliveryPointTypes.size()">
+        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPointTypes.size()">
             @for(point <- deliveryPointTypes){
                 @if(deliveryPointType != null && deliveryPointType.id == point.id) {
                     <option value="@point.id" selected="selected">@point.name
@@ -39,18 +35,18 @@
                 }
             }
         </select>
-            <button>Select</button>
+            <br><button type="submit" class="btn btn-primary">Select</button>
     </form>
 
     <form action="@routes.LibraryController.addDeliveryPoint" method="post">
 
-        <li>Name of the point</li>
+        <label>Name of the point</label><br>
         <input type="text" name="name" value="name" required/>
 
-        <li>Address</li>
+        <label>Address</label><br>
         <input type="text" name="address" value="address" required/>
         <br>
-        <button>Add delivery point</button>
+        <br><button type="submit" class="btn btn-primary">Add delivery point</button>
 
     </form>
 }

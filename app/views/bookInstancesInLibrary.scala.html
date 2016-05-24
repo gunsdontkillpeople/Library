@@ -10,13 +10,10 @@
 @(books:List[Book], selectedBook:Book, selectedDeliveryPoint:DeliveryPoint, booksInDeliveryPoint: List[Book])
 
 @main("Instances"){
-
-    <a href="@routes.LibraryController.index">Return to index page</a>
-
     <br>
     <p>Selected book in the library</p>
     <br>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Point name</th>

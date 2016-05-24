@@ -9,18 +9,33 @@
 @(books:List[Book])
 
 @main("Books"){
-
-    <a href="@routes.LibraryController.index()">Return to index page</a>
-
     <table class="table table-bordered" valign="top" cellspacing="20">
         <thead>
             <tr>
-                <th>Books registered in library</th>
                 <th>Register books in library</th>
+                <th>Books registered in library</th>
             </tr>
         </thead>
         <tbody>
             <tr>
+                <td valign="top">
+
+                    <form action="@routes.LibraryController.addBook()" method="post">
+                        <label>Author</label><br>
+                        <input type="text" name="author" value="author" required/><br>
+                        <label>Title</label><br>
+                        <input type="text" name="title" value="title" required/><br>
+                        <label>ReleaseDate</label><br>
+                        <input type="date" name="releaseDate"/><br>
+                        <label>Price</label><br>
+                        <input type="text" name="price" value="300"/>
+                        <br><br>
+                        <button type="submit" class="btn btn-primary">Add book</button>
+                    </form>
+
+
+                </td>
+
                 <td>
 
 
@@ -49,24 +64,7 @@
 
 
                 </td>
-                <td valign="top">
 
-                    <form action="@routes.LibraryController.addBook()" method="post">
-                        <li>Author</li>
-                        <input type="text" name="author" value="author" required/>
-                        <li>Title</li>
-                        <input type="text" name="title" value="title" required/>
-                        <li>ReleaseDate</li>
-                        <input type="date" name="releaseDate"/>
-                        <li>Price</li>
-                        <input type="text" name="price" value="300"/>
-                        <br>
-                        <button>Add book</button>
-
-                    </form>
-
-
-                </td>
             </tr>
         </tbody>
     </table>

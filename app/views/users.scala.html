@@ -8,11 +8,9 @@
 @(userCategories:List[UserCategory], userCategory:UserCategory)
 
 @main("Users"){
-    <a href="@routes.LibraryController.index()">Return to index page</a>
-
     <p>Please select the category to add user</p>
     <form action="@routes.LibraryController.selectUserCategory" method="post">
-        <select name="UserCategory" size="@userCategories.size()" required>
+        <select multiple="multiple" class="form-control" name="UserCategory" size="@userCategories.size()" required>
             @for(category <- userCategories){
                 @if(userCategory != null && category.id == userCategory.id) {
                     <option value="@category.id" selected="selected">@category.name</option>
@@ -21,20 +19,20 @@
                 }
             }
         </select>
-        <button>Select category</button>
+        <br><button type="submit" class="btn btn-primary">Select category</button>
     </form>
 
     <br>
     <br>
 
     <form action="@routes.LibraryController.addUser" method="post">
-        <p>User name</p>
-        <input type="text" name="name" required>
-        <p>User surname</p>
-        <input type="text" name="surname" required>
-        <p>User middlename</p>
-        <input type="text" name="middlename" required>
-        <button>Add user</button>
+        <label>User name</label><br>
+        <input type="text" name="name" required><br>
+        <label>User surname</label><br>
+        <input type="text" name="surname" required><br>
+        <label>User middlename</label><br>
+        <input type="text" name="middlename" required><br>
+        <br><button type="submit" class="btn btn-primary">Add user</button>
     </form>
 
 }

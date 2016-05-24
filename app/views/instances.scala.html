@@ -11,13 +11,10 @@
 @(books:List[Book], selectedBook:Book, selectedDeliveryPoint:DeliveryPoint, booksInDeliveryPoint: List[Pair[Book,Long]])
 
 @main("Instances"){
-
-    <a href="@routes.LibraryController.index">Return to index page</a>
-
     <p>Please select books that library knows to add instances of it</p>
 
     <form action="@routes.LibraryController.selectBook" method="post">
-        <p><select name="Books" size="@books.size()" required>
+        <p><select multiple="multiple" class="form-control" name="Books" size="@books.size()" required>
             @for(book <- books) {
                 @if(selectedBook != null && selectedBook.id == book.id){
                     <option value="@book.id" selected="selected">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
@@ -26,23 +23,25 @@
                 }
             }
         </select>
-        <button>Select book</button>
+            <br><button type="submit" class="btn btn-primary">Select book</button>
     </form>
 
     <form action="@routes.LibraryController.addInstance" method="post">
         <p>To add instances of the selected book please fill the following form</p>
         <br>
-        <p>Date of instances arrival</p>
-        <input type="date" name="date" required>
-        <p>Amount of instances arrived</p>
+        <label>Date of instances arrival</label><br>
+        <input type="date" name="date" required><br>
+        <label>Amount of instances arrived</label><br>
         <input type="number" name="amount" required>
+        <br>
+        <br>
         @if(selectedBook == null) {
-            <button disabled>Please select the book first</button>
+            <button disabled class="btn btn-danger">Please select the book first</button>
         }else {
             @if(selectedDeliveryPoint == null) {
-                <button disabled>Please select delivery point first</button>
+                <button disabled class="btn btn-danger">Please select delivery point first</button>
             } else {
-                <button>Add to the library</button>
+                <button type="submit" class="btn btn-primary">Add to the library</button>
             }
         }
     </form>
