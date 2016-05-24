@@ -12,16 +12,15 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # Pages
-
 GET     /                           controllers.LibraryController.index
 GET     /books                      controllers.LibraryController.booksPage
 GET     /instances                  controllers.LibraryController.instancesPage
 GET     /users                      controllers.LibraryController.usersPage
 GET     /deliveryPoints             controllers.LibraryController.deliveryPointsPage
+GET     /deliveryPointBooks         controllers.LibraryController.deliveryPointBooksPage
 GET     /transfers                  controllers.LibraryController.transfersPage
 
 # Posts
-
 POST    /addBooks                   controllers.LibraryController.addBook
 POST    /addInstance                controllers.LibraryController.addInstance
 POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint

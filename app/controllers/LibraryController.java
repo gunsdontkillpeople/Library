@@ -66,22 +66,31 @@ public class LibraryController extends Controller {
 
     public Result instancesPage() {
         List<Book> books = new Model.Finder(String.class, Book.class).all();
-        List<Pair<Book, Long>> booksByDeliveryPoint = null;
-        if(selectedDeliveryPoint != null){
-            booksByDeliveryPoint = BookInstance.instancesByDeliveryPointId(selectedDeliveryPoint.id);
+        List<Pair<DeliveryPoint, Long>> deliveryPointAmount = null;
+        if(selectedBook != null){
+            deliveryPointAmount = BookInstance.instancesByBookId(selectedBook.id);
         }
-        return ok(instances.render(books, selectedBook, selectedDeliveryPoint, booksByDeliveryPoint));
+        return ok(instances.render(books, selectedBook, selectedDeliveryPoint, deliveryPointAmount));
     }
 
     public Result usersPage() {
         List<UserCategory> userCategories = new Model.Finder<>(String.class, UserCategory.class).all();
-        return ok(users.render(userCategories, selectedUserCategory));
+        List<LibraryUser> libraryUsers = new Model.Finder<>(String.class, LibraryUser.class).all();
+        return ok(users.render(userCategories, selectedUserCategory, libraryUsers));
     }
 
     public Result deliveryPointsPage() {
         List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
         List<DeliveryPointType> pointTypes = new Model.Finder(String.class, DeliveryPointType.class).all();
         return ok(deliveryPoints.render(pointTypes, points, selectedDeliveryPointType, selectedDeliveryPoint));
+    }
+
+    public Result deliveryPointBooksPage() {
+        List<Pair<Book, Long>> booksByDeliveryPoint = null;
+        if(selectedDeliveryPoint != null){
+            booksByDeliveryPoint = BookInstance.instancesByDeliveryPointId(selectedDeliveryPoint.id);
+        }
+        return ok(deliveryPointBooks.render(selectedDeliveryPoint, booksByDeliveryPoint));
     }
 
     public Result transfersPage() {

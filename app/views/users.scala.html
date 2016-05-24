@@ -5,34 +5,70 @@
  * object to insert into the body of the page.
  *@
 @import models.user.UserCategory
-@(userCategories:List[UserCategory], userCategory:UserCategory)
+@import models.user.LibraryUser
+@(userCategories:List[UserCategory], userCategory:UserCategory, users:List[LibraryUser])
 
 @main("Users"){
-    <p>Please select the category to add user</p>
-    <form action="@routes.LibraryController.selectUserCategory" method="post">
-        <select multiple="multiple" class="form-control" name="UserCategory" size="@userCategories.size()" required>
-            @for(category <- userCategories){
-                @if(userCategory != null && category.id == userCategory.id) {
-                    <option value="@category.id" selected="selected">@category.name</option>
-                }else{
-                    <option value="@category.id">@category.name</option>
-                }
-            }
-        </select>
-        <br><button type="submit" class="btn btn-primary">Select category</button>
-    </form>
+    <table class="table table-bordered" valign="top" cellspacing="20">
+        <thead>
+            <tr>
+                <th>Add user</th>
+                <th>Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td valign="top">
+                    <p>Please select the category to add user</p>
+                    <form action="@routes.LibraryController.selectUserCategory" method="post">
+                        <select multiple="multiple" class="form-control" name="UserCategory" size="@userCategories.size()" required>
+                        @for(category <- userCategories){
+                            @if(userCategory != null && category.id == userCategory.id) {
+                                <option value="@category.id" selected="selected">@category.name</option>
+                            }else{
+                                <option value="@category.id">@category.name</option>
+                            }
+                        }
+                        </select>
+                        <br><button type="submit" class="btn btn-primary">Select category</button>
+                    </form>
 
-    <br>
-    <br>
+                    <br>
+                    <br>
 
-    <form action="@routes.LibraryController.addUser" method="post">
-        <label>User name</label><br>
-        <input type="text" name="name" required><br>
-        <label>User surname</label><br>
-        <input type="text" name="surname" required><br>
-        <label>User middlename</label><br>
-        <input type="text" name="middlename" required><br>
-        <br><button type="submit" class="btn btn-primary">Add user</button>
-    </form>
-
+                    <form action="@routes.LibraryController.addUser" method="post">
+                        <label>User name</label><br>
+                        <input type="text" name="name" required value="Ivan"><br>
+                        <label>User middlename</label><br>
+                        <input type="text" name="middlename" required value="Ivanovich"><br>
+                        <label>User surname</label><br>
+                        <input type="text" name="surname" required value="Ivanov"><br>
+                        <br><button type="submit" class="btn btn-primary">Add @userCategory.name</button>
+                    </form>
+                </td>
+                <td>
+                    <table class="table table-bordered" valign="top" cellspacing="20">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Middlename</th>
+                                <th>Surname</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(user <- users) {
+                                <tr>
+                                    <td>@user.name</td>
+                                    <td>@user.middlename</td>
+                                    <td>@user.surname</td>
+                                    <td>@user.userCategory.name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }

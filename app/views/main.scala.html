@@ -58,12 +58,32 @@
                          }
                             <a href="@routes.LibraryController.usersPage"><i class="fa fa-flask fa-fw"></i>Users</a>
                         </li>
-                        @if(title == "Delivery points"){
-                            <li class="selected">
+                        @if(title == "Delivery points" || title == "Delivery point books"){
+                            <li class="active">
                         }else{
                             <li class="">
                         }
-                            <a href="@routes.LibraryController.deliveryPointsPage"><i class="fa fa-table fa-fw"></i>Delivery points</a>
+                            <a href=""><i class="fa fa-table fa-fw"></i>Delivery points
+                                <span class="fa arrow" href="@routes.LibraryController.deliveryPointsPage"></span></a>
+                                <ul class="nav nav-second-level">
+                                    @if(title == "Delivery points"){
+                                        <li class="selected">
+                                    }else{
+                                        <li>
+                                        }
+                                <a href="@routes.LibraryController.deliveryPointsPage">Delivery points add/select</a>
+                                </li>
+                                </ul>
+                                <ul class="nav nav-second-level">
+                                @if(title == "Delivery point books"){
+                                    <li class="selected">
+                                }else{
+                                    <li>
+                                }
+                                    <a href="@routes.LibraryController.deliveryPointBooksPage">Books by delivery point</a>
+                                </li>
+                            </ul>
+
                         </li>
                         @if(title == "Transfers"){
                             <li class="selected">

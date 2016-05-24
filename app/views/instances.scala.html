@@ -8,68 +8,77 @@
 @import models.book.Book
 @import utils.Pair
 @import models.deliverypoint.DeliveryPoint
-@(books:List[Book], selectedBook:Book, selectedDeliveryPoint:DeliveryPoint, booksInDeliveryPoint: List[Pair[Book,Long]])
+@(books:List[Book], selectedBook:Book, selectedDeliveryPoint:DeliveryPoint, deliveryPointAmount:List[Pair[DeliveryPoint,Long]])
 
 @main("Instances"){
-    <p>Please select books that library knows to add instances of it</p>
+    <table class="table table-bordered" valign="top" cellspacing="20">
+        <thead>
+            <tr>
+                <th>Add instances of selected book</th>
+                <th>Book instances in library</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <form action="@routes.LibraryController.selectBook" method="post">
+                        <p><select multiple="multiple" class="form-control" name="Books" size="@books.size()" required>
+                        @for(book <- books) {
+                            @if(selectedBook != null && selectedBook.id == book.id){
+                                <option value="@book.id" selected="selected">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
+                            }else{
+                                <option value="@book.id">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
+                                }
+                        }
+                        </select>
+                            <br><button type="submit" class="btn btn-primary">Select book</button>
+                    </form>
 
-    <form action="@routes.LibraryController.selectBook" method="post">
-        <p><select multiple="multiple" class="form-control" name="Books" size="@books.size()" required>
-            @for(book <- books) {
-                @if(selectedBook != null && selectedBook.id == book.id){
-                    <option value="@book.id" selected="selected">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
-                }else{
-                    <option value="@book.id">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
-                }
-            }
-        </select>
-            <br><button type="submit" class="btn btn-primary">Select book</button>
-    </form>
-
-    <form action="@routes.LibraryController.addInstance" method="post">
-        <p>To add instances of the selected book please fill the following form</p>
-        <br>
-        <label>Date of instances arrival</label><br>
-        <input type="date" name="date" required><br>
-        <label>Amount of instances arrived</label><br>
-        <input type="number" name="amount" required>
-        <br>
-        <br>
-        @if(selectedBook == null) {
-            <button disabled class="btn btn-danger">Please select the book first</button>
-        }else {
-            @if(selectedDeliveryPoint == null) {
-                <button disabled class="btn btn-danger">Please select delivery point first</button>
-            } else {
-                <button type="submit" class="btn btn-primary">Add to the library</button>
-            }
-        }
-    </form>
-    @if(selectedDeliveryPoint != null){
-        <br>
-        <p>All books in selected delivery point</p>
-        <br>
-        <table cellspacing="10" border="10">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Release date</th>
-                    <th>Price</th>
-                    <th>Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for(bookPair <- booksInDeliveryPoint) {
-                    <tr>
-                        <td>@bookPair.first.title</td>
-                        <td>@bookPair.first.author</td>
-                        <td>@bookPair.first.releaseDate</td>
-                        <td>@bookPair.first.price</td>
-                        <td>@bookPair.second</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+                    <form action="@routes.LibraryController.addInstance" method="post">
+                        <p>To add instances of the selected book please fill the following form</p>
+                        <br>
+                        <label>Date of instances arrival</label><br>
+                        <input type="date" name="date" required><br>
+                        <label>Amount of instances arrived</label><br>
+                        <input type="number" name="amount" required>
+                        <br>
+                        <br>
+                        @if(selectedBook == null) {
+                            <button disabled class="btn btn-danger">Please select the book first</button>
+                        }else {
+                            @if(selectedDeliveryPoint == null) {
+                                <button disabled class="btn btn-danger">Please select delivery point first</button>
+                            } else {
+                                <button type="submit" class="btn btn-primary">Add to the library</button>
+                            }
+                        }
+                    </form>
+                </td>
+                <td>
+                    @if(selectedBook != null) {
+                        <table class="table table-bordered" valign="top" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <th>Delivery point name</th>
+                                    <th>Delivery point address</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @for(entity <- deliveryPointAmount) {
+                                <tr>
+                                    <td>@entity.first.name</td>
+                                    <td>@entity.first.address</td>
+                                    <td>@entity.second</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    }else{
+                        <label class="text-danger">Book is not specified!</label>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }

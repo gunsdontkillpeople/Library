@@ -53,4 +53,22 @@ public class BookInstance extends Model {
         }
         return ret;
     }
+
+    public static List<Pair<DeliveryPoint, Long>> instancesByBookId(Long bookId){
+        String sql = "SELECT delivery_point.id AS id, count(*) as ct FROM book_instance\n" +
+                "JOIN delivery_point ON delivery_point.id = book_instance.delivery_point_id\n" +
+                "WHERE book_instance.book_id = :bookId\n" +
+                "GROUP BY delivery_point.id";
+        SqlQuery query = Ebean.createSqlQuery(sql);
+        query.setParameter("bookId", bookId);
+        List<SqlRow> sqlRows = query.findList();
+        List<Pair<DeliveryPoint, Long>> ret = new ArrayList<>();
+        for (SqlRow row : sqlRows) {
+            Long id = (Long)row.get("id");
+            DeliveryPoint deliveryPoint = (DeliveryPoint) new Finder(String.class, DeliveryPoint.class).byId(id);
+            Long count = (Long) row.get("ct");
+            ret.add(new Pair<>(deliveryPoint, count));
+        }
+        return ret;
+    }
 }
