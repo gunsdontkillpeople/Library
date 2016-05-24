@@ -10,43 +10,54 @@
 @(deliveryPointTypes: List[DeliveryPointType], deliveryPoints:List[DeliveryPoint], deliveryPointType: DeliveryPointType, deliveryPoint: DeliveryPoint)
 
 @main("Delivery points"){
-    <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
-        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
-        @for(point <- deliveryPoints) {
-            @if(deliveryPoint != null && deliveryPoint.id == point.id){
-                <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
-            }else{
-                <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
-            }
-        }
-        </select>
-            <br><button>Work with selected delivery point</button>
-    </form>
+    <table class="table table-bordered" valign="top" cellspacing="20">
+        <thead>
+            <tr>
+                <th>Add delivery point</th>
+                <th>DeliveryPoints</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td valign="top">
+                    <form action="@routes.LibraryController.selectDeliveryPointType" method="post">
+                        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPointTypes.size()">
+                        @for(point <- deliveryPointTypes){
+                            @if(deliveryPointType != null && deliveryPointType.id == point.id) {
+                                <option value="@point.id" selected="selected">@point.name
+                            }else{
+                                <option value="@point.id">@point.name
+                                }
+                        }
+                        </select>
+                            <br><button type="submit" class="btn btn-primary">Select</button>
+                    </form>
+                    <form action="@routes.LibraryController.addDeliveryPoint" method="post">
 
-    <p>To register a new delivery point please use the following form</p>
+                        <label>Name of the point</label><br>
+                        <input type="text" name="name" value="name" required/>
 
-    <form action="@routes.LibraryController.selectDeliveryPointType" method="post">
-        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPointTypes.size()">
-            @for(point <- deliveryPointTypes){
-                @if(deliveryPointType != null && deliveryPointType.id == point.id) {
-                    <option value="@point.id" selected="selected">@point.name
-                }else{
-                    <option value="@point.id">@point.name
-                }
-            }
-        </select>
-            <br><button type="submit" class="btn btn-primary">Select</button>
-    </form>
-
-    <form action="@routes.LibraryController.addDeliveryPoint" method="post">
-
-        <label>Name of the point</label><br>
-        <input type="text" name="name" value="name" required/>
-
-        <label>Address</label><br>
-        <input type="text" name="address" value="address" required/>
-        <br>
-        <br><button type="submit" class="btn btn-primary">Add delivery point</button>
-
-    </form>
+                        <label>Address</label><br>
+                        <input type="text" name="address" value="address" required/>
+                        <br>
+                        <br><button type="submit" class="btn btn-primary">Add @deliveryPointType.name</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
+                        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
+                        @for(point <- deliveryPoints) {
+                            @if(deliveryPoint != null && deliveryPoint.id == point.id){
+                                <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+                            }else{
+                                <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+                                }
+                        }
+                        </select>
+                            <br><button  type="submit" class="btn btn-primary">Work with selected delivery point</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }
