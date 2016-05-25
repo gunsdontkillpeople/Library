@@ -25,4 +25,10 @@ public class StudentUserCategoryCharacteristic extends Model {
 
     @NotNull
     public String studentGroup;
+
+    public StudentUserCategoryCharacteristic(LibraryUser user, String faculty, String group){
+        libraryUser = user;
+        studentFaculty = faculty;
+        studentGroup = group;
+    }
 }

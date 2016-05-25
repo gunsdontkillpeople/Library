@@ -15,7 +15,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /                           controllers.LibraryController.index
 GET     /books                      controllers.LibraryController.booksPage
 GET     /instances                  controllers.LibraryController.instancesPage
-GET     /users                      controllers.LibraryController.usersPage
+GET     /addUsers                   controllers.LibraryController.addUsersPage
 GET     /deliveryPoints             controllers.LibraryController.deliveryPointsPage
 GET     /deliveryPointBooks         controllers.LibraryController.deliveryPointBooksPage
 GET     /transfers                  controllers.LibraryController.transfersPage
@@ -26,9 +26,14 @@ POST    /addInstance                controllers.LibraryController.addInstance
 POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint
 POST    /addUser                    controllers.LibraryController.addUser
 
-
 # Selects
 POST    /selectDeliveryPoint        controllers.LibraryController.selectDeliveryPoint
+POST    /selectDeliveryPointSrc     controllers.LibraryController.selectDeliveryPointSrc
+POST    /selectDeliveryPointDst     controllers.LibraryController.selectDeliveryPointDst
 POST    /addDeliveryPointType       controllers.LibraryController.selectDeliveryPointType
 POST    /selectBook                 controllers.LibraryController.selectBook
 POST    /selectUserCategory         controllers.LibraryController.selectUserCategory
+POST    /selectUser                 controllers.LibraryController.selectUser
+
+# Makers
+POST    /makeTransfer               controllers.LibraryController.makeTransfer

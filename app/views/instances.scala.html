@@ -25,10 +25,11 @@
                         <p><select multiple="multiple" class="form-control" name="Books" size="@books.size()" required>
                         @for(book <- books) {
                             @if(selectedBook != null && selectedBook.id == book.id){
-                                <option value="@book.id" selected="selected">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
+                                <option value="@book.id" selected="selected">
                             }else{
-                                <option value="@book.id">Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
-                                }
+                                <option value="@book.id">
+                            }
+                            Author: @book.author, Title: @book.title (@book.releaseDate, @book.price)
                         }
                         </select>
                             <br><button type="submit" class="btn btn-primary">Select book</button>

@@ -24,10 +24,11 @@
                         <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPointTypes.size()">
                         @for(point <- deliveryPointTypes){
                             @if(deliveryPointType != null && deliveryPointType.id == point.id) {
-                                <option value="@point.id" selected="selected">@point.name
+                                <option value="@point.id" selected="selected">
                             }else{
-                                <option value="@point.id">@point.name
-                                }
+                                <option value="@point.id">
+                            }
+                            @point.name
                         }
                         </select>
                             <br><button type="submit" class="btn btn-primary">Select delivery point type</button>
@@ -48,10 +49,11 @@
                         <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
                         @for(point <- deliveryPoints) {
                             @if(deliveryPoint != null && deliveryPoint.id == point.id){
-                                <option value="@point.id" selected="selected">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+                                <option value="@point.id" selected="selected">
                             }else{
-                                <option value="@point.id">@point.name, Address: @point.address (Type: @point.deliveryPointType.name)
-                                }
+                                <option value="@point.id">
+                            }
+                            @point.name, Address: @point.address (Type: @point.deliveryPointType.name)
                         }
                         </select>
                             <br><button  type="submit" class="btn btn-primary">Work with selected delivery point</button>

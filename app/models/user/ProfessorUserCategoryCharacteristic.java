@@ -30,7 +30,8 @@ public class ProfessorUserCategoryCharacteristic extends Model {
     @NotNull
     public String professorDegree;
 
-    public ProfessorUserCategoryCharacteristic(String chair, String rank, String degree){
+    public ProfessorUserCategoryCharacteristic(LibraryUser user, String chair, String rank, String degree){
+        libraryUser = user;
         professorChair = chair;
         professorDegree = degree;
         professorRank = rank;

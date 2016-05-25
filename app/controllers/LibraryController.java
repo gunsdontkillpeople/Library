@@ -3,19 +3,21 @@ package controllers;
 import com.avaje.ebean.Model;
 import models.book.Book;
 import models.book.BookInstance;
+import models.deliverypoint.BookTransfer;
 import models.deliverypoint.DeliveryPoint;
 import models.deliverypoint.DeliveryPointType;
 import models.user.LibraryUser;
+import models.user.ProfessorUserCategoryCharacteristic;
+import models.user.StudentUserCategoryCharacteristic;
 import models.user.UserCategory;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.Assistant;
 import utils.Pair;
 import views.html.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,30 +29,18 @@ import java.util.Map;
 public class LibraryController extends Controller {
 
     private DeliveryPointType selectedDeliveryPointType = null;
-    private DeliveryPoint selectedDeliveryPoint = null;
+    private DeliveryPoint selectedDeliveryPoint = null, selectedDeliveryPointSrc = null;
     private Book selectedBook = null;
     private UserCategory selectedUserCategory = null;
+    private LibraryUser selectedLibraryUser = null;
 
     public LibraryController(){
         if(new Model.Finder(String.class, DeliveryPointType.class).all().isEmpty()) {
-            initLibraryUserCategories();
-            initDeliveryPointTypes();
+            Assistant.initLibraryUserCategories();
+            Assistant.initDeliveryPointTypes();
         }
         selectedDeliveryPointType = (DeliveryPointType) new Model.Finder(String.class, DeliveryPointType.class).all().get(0);
         selectedUserCategory = (UserCategory) new Model.Finder(String.class, UserCategory.class).all().get(0);
-    }
-
-    private void initDeliveryPointTypes() {
-        new DeliveryPointType("Delivery desk").save();
-        new DeliveryPointType("Reading room").save();
-    }
-
-    private void initLibraryUserCategories() {
-        new UserCategory("Student").save();
-        new UserCategory("Professor").save();
-        new UserCategory("Enrollee").save();
-        new UserCategory("Trainee").save();
-        new UserCategory("TF listener").save();
     }
 
     public Result index() {
@@ -68,15 +58,15 @@ public class LibraryController extends Controller {
         List<Book> books = new Model.Finder(String.class, Book.class).all();
         List<Pair<DeliveryPoint, Long>> deliveryPointAmount = null;
         if(selectedBook != null){
-            deliveryPointAmount = BookInstance.instancesByBookId(selectedBook.id);
+            deliveryPointAmount = BookInstance.instancesByBook(selectedBook);
         }
         return ok(instances.render(books, selectedBook, selectedDeliveryPoint, deliveryPointAmount));
     }
 
-    public Result usersPage() {
+    public Result addUsersPage() {
         List<UserCategory> userCategories = new Model.Finder<>(String.class, UserCategory.class).all();
         List<LibraryUser> libraryUsers = new Model.Finder<>(String.class, LibraryUser.class).all();
-        return ok(users.render(userCategories, selectedUserCategory, libraryUsers));
+        return ok(users.render(userCategories, selectedUserCategory, libraryUsers, selectedLibraryUser));
     }
 
     public Result deliveryPointsPage() {
@@ -88,13 +78,18 @@ public class LibraryController extends Controller {
     public Result deliveryPointBooksPage() {
         List<Pair<Book, Long>> booksByDeliveryPoint = null;
         if(selectedDeliveryPoint != null){
-            booksByDeliveryPoint = BookInstance.instancesByDeliveryPointId(selectedDeliveryPoint.id);
+            booksByDeliveryPoint = BookInstance.instancesByDeliveryPoint(selectedDeliveryPoint);
         }
         return ok(deliveryPointBooks.render(selectedDeliveryPoint, booksByDeliveryPoint));
     }
 
     public Result transfersPage() {
-        return ok(transfers.render());
+        List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
+        List<Pair<Book, Long>> booksByDeliveryPoint = null;
+        if(selectedDeliveryPointSrc != null){
+            booksByDeliveryPoint = BookInstance.instancesByDeliveryPoint(selectedDeliveryPointSrc);
+        }
+        return ok(transfers.render(points, selectedDeliveryPointSrc, selectedDeliveryPoint, booksByDeliveryPoint, selectedBook, selectedLibraryUser));
     }
 
     public Result addBook() {
@@ -113,7 +108,7 @@ public class LibraryController extends Controller {
         Integer amount = Integer.decode(data.get("amount"));
 
         String dateString = data.get("date");
-        Date date = parseDateFromString(dateString);
+        Date date = Assistant.parseDateFromString(dateString);
 
         for(int i = 0; i < amount; i++) {
             BookInstance bookInstance = new BookInstance();
@@ -142,7 +137,15 @@ public class LibraryController extends Controller {
         Map<String, String> data = form.data();
         LibraryUser user = new LibraryUser(selectedUserCategory, data.get("name"), data.get("middlename"), data.get("surname"));
         user.save();
-        return redirect(routes.LibraryController.usersPage());
+        if(selectedUserCategory.name == "Student"){
+            StudentUserCategoryCharacteristic characteristic = new StudentUserCategoryCharacteristic(user, data.get("faculty"), data.get("group"));
+            characteristic.save();
+        }
+        if(selectedUserCategory.name == "Professor"){
+            ProfessorUserCategoryCharacteristic characteristic = new ProfessorUserCategoryCharacteristic(user, data.get("chair"), data.get("rank"), data.get("degree"));
+            characteristic.save();
+        }
+        return redirect(routes.LibraryController.addUsersPage());
     }
 
     public Result selectDeliveryPoint() {
@@ -150,6 +153,20 @@ public class LibraryController extends Controller {
         Map<String, String> data = form.data();
         selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
         return redirect(routes.LibraryController.deliveryPointsPage());
+    }
+
+    public Result selectDeliveryPointSrc() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPointSrc = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.transfersPage());
+    }
+
+    public Result selectDeliveryPointDst() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.transfersPage());
     }
 
     public Result selectDeliveryPointType() {
@@ -170,22 +187,29 @@ public class LibraryController extends Controller {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         selectedUserCategory = (UserCategory) new Model.Finder(String.class, UserCategory.class).byId(data.get("UserCategory"));
-        return redirect(routes.LibraryController.usersPage());
+        return redirect(routes.LibraryController.addUsersPage());
     }
 
-    private Date parseDateFromString(String str){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
+    public Result selectUser() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedLibraryUser = (LibraryUser) new Model.Finder(String.class, LibraryUser.class).byId(data.get("Users"));
+        return redirect(routes.LibraryController.addUsersPage());
+    }
 
-            date = formatter.parse(str);
-            System.out.println(date);
-            System.out.println(formatter.format(date));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public Result makeTransfer() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedBook = (Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"));
+        List<BookInstance> bookInstances = BookInstance.instancesByDeliveryPointAndBook(selectedDeliveryPointSrc, selectedBook);
+        if(!bookInstances.isEmpty()){
+            BookInstance instance = bookInstances.get(0);
+            instance.deliveryPoint = null;
+            instance.date = null;
+            BookTransfer transfer = new BookTransfer(instance, selectedLibraryUser, selectedDeliveryPointSrc, selectedDeliveryPoint, Assistant.today(), Assistant.nextDay(10));
+            instance.update();
+            transfer.save();
         }
-        return date;
+        return redirect(routes.LibraryController.transfersPage());
     }
-
 }

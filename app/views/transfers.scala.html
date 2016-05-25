@@ -5,6 +5,80 @@
  * object to insert into the body of the page.
  *@
 
+@import models.deliverypoint.DeliveryPoint
+@import models.book.Book
+@import utils.Pair
+@import models.user.LibraryUser
+@(deliveryPoints:List[DeliveryPoint], src:DeliveryPoint, dst:DeliveryPoint, instances:List[Pair[Book, Long]], book:Book, user:LibraryUser)
+
 @main("Transfers"){
 
+    <table class="table table-bordered" valign="top" cellspacing="20">
+        <thead>
+            <tr>
+                <th>From this delivery point</th>
+                <th>To this delivery point</th>
+                <th>Select book</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <form action="@routes.LibraryController.selectDeliveryPointSrc" method="post">
+                        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
+                        @for(point <- deliveryPoints) {
+                            @if(src != null && src.id == point.id){
+                                <option value="@point.id" selected="selected">
+                            }else{
+                                <option value="@point.id">
+                            }
+                            @point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+                        }
+                        </select>
+                            <br><button  type="submit" class="btn btn-primary">Select source</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="@routes.LibraryController.selectDeliveryPointDst" method="post">
+                        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
+                        @for(point <- deliveryPoints) {
+                            @if(dst != null && dst.id == point.id){
+                                <option value="@point.id" selected="selected">
+                            }else{
+                                <option value="@point.id">
+                            }
+                            @point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+                        }
+                        </select>
+                            <br><button  type="submit" class="btn btn-primary">Select destination</button>
+                    </form>
+                </td>
+                <td>
+                    @if(src != null){
+                        <form action="@routes.LibraryController.makeTransfer" method="post">
+                            <p><select multiple="multiple" class="form-control" name="Books" size="@instances.size()" required>
+                            @for(inst <- instances) {
+                                @if(book != null && book.id == inst.first.id){
+                                    <<option value="@inst.first.id" selected="selected">
+                                }else{
+                                    <option value="@inst.first.id">
+                                }
+                                Author: @inst.first.author, Title: @inst.first.title (@inst.first.releaseDate, @inst.first.price), Amount: @inst.second
+                            }
+                            </select>
+                                @if(dst == null){
+                                    <br><button  type="submit" class="btn btn-danger" disabled>Destination is not specified</button>
+                                }else{
+                                    @if(user == null){
+                                        <br><button  type="submit" class="btn btn-danger" disabled>User is not specified</button>
+                                    }else{
+                                        <br><button  type="submit" class="btn btn-primary">Make transfer</button>
+                                    }
+                                }
+                        </form>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }

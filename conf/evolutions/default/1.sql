@@ -15,20 +15,21 @@ create table book (
 create table book_instance (
   id                        bigint auto_increment not null,
   book_id                   bigint not null,
-  delivery_point_id         bigint not null,
-  date                      timestamp not null,
+  delivery_point_id         bigint,
+  date                      timestamp,
   constraint pk_book_instance primary key (id))
 ;
 
-create table books_transfer (
+create table book_transfer (
   id                        bigint auto_increment not null,
   book_instance_id          bigint not null,
+  library_user_id           bigint not null,
   src_delivery_point_id     bigint not null,
   dst_delivery_point_id     bigint not null,
   send_date                 timestamp not null,
   receive_date              timestamp not null,
-  constraint uq_books_transfer_book_instance_ unique (book_instance_id),
-  constraint pk_books_transfer primary key (id))
+  constraint uq_book_transfer_book_instance_i unique (book_instance_id),
+  constraint pk_book_transfer primary key (id))
 ;
 
 create table delivery_point (
@@ -110,28 +111,30 @@ alter table book_instance add constraint fk_book_instance_book_1 foreign key (bo
 create index ix_book_instance_book_1 on book_instance (book_id);
 alter table book_instance add constraint fk_book_instance_deliveryPoint_2 foreign key (delivery_point_id) references delivery_point (id) on delete restrict on update restrict;
 create index ix_book_instance_deliveryPoint_2 on book_instance (delivery_point_id);
-alter table books_transfer add constraint fk_books_transfer_bookInstance_3 foreign key (book_instance_id) references book_instance (id) on delete restrict on update restrict;
-create index ix_books_transfer_bookInstance_3 on books_transfer (book_instance_id);
-alter table books_transfer add constraint fk_books_transfer_srcDeliveryP_4 foreign key (src_delivery_point_id) references delivery_point (id) on delete restrict on update restrict;
-create index ix_books_transfer_srcDeliveryP_4 on books_transfer (src_delivery_point_id);
-alter table books_transfer add constraint fk_books_transfer_dstDeliveryP_5 foreign key (dst_delivery_point_id) references delivery_point (id) on delete restrict on update restrict;
-create index ix_books_transfer_dstDeliveryP_5 on books_transfer (dst_delivery_point_id);
-alter table delivery_point add constraint fk_delivery_point_deliveryPoin_6 foreign key (delivery_point_type_id) references delivery_point_type (id) on delete restrict on update restrict;
-create index ix_delivery_point_deliveryPoin_6 on delivery_point (delivery_point_type_id);
-alter table library_user add constraint fk_library_user_userCategory_7 foreign key (user_category_id) references user_category (id) on delete restrict on update restrict;
-create index ix_library_user_userCategory_7 on library_user (user_category_id);
-alter table professor_user_category_characteristic add constraint fk_professor_user_category_cha_8 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
-create index ix_professor_user_category_cha_8 on professor_user_category_characteristic (library_user_id);
-alter table student_user_category_characteristic add constraint fk_student_user_category_chara_9 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
-create index ix_student_user_category_chara_9 on student_user_category_characteristic (library_user_id);
-alter table taken_book add constraint fk_taken_book_libraryUser_10 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
-create index ix_taken_book_libraryUser_10 on taken_book (library_user_id);
-alter table taken_book add constraint fk_taken_book_takenBookStatus_11 foreign key (taken_book_status_id) references taken_book_status (id) on delete restrict on update restrict;
-create index ix_taken_book_takenBookStatus_11 on taken_book (taken_book_status_id);
-alter table taken_book add constraint fk_taken_book_bookInstance_12 foreign key (book_instance_id) references book_instance (id) on delete restrict on update restrict;
-create index ix_taken_book_bookInstance_12 on taken_book (book_instance_id);
-alter table user_fine add constraint fk_user_fine_libraryUser_13 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
-create index ix_user_fine_libraryUser_13 on user_fine (library_user_id);
+alter table book_transfer add constraint fk_book_transfer_bookInstance_3 foreign key (book_instance_id) references book_instance (id) on delete restrict on update restrict;
+create index ix_book_transfer_bookInstance_3 on book_transfer (book_instance_id);
+alter table book_transfer add constraint fk_book_transfer_libraryUser_4 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
+create index ix_book_transfer_libraryUser_4 on book_transfer (library_user_id);
+alter table book_transfer add constraint fk_book_transfer_srcDeliveryPo_5 foreign key (src_delivery_point_id) references delivery_point (id) on delete restrict on update restrict;
+create index ix_book_transfer_srcDeliveryPo_5 on book_transfer (src_delivery_point_id);
+alter table book_transfer add constraint fk_book_transfer_dstDeliveryPo_6 foreign key (dst_delivery_point_id) references delivery_point (id) on delete restrict on update restrict;
+create index ix_book_transfer_dstDeliveryPo_6 on book_transfer (dst_delivery_point_id);
+alter table delivery_point add constraint fk_delivery_point_deliveryPoin_7 foreign key (delivery_point_type_id) references delivery_point_type (id) on delete restrict on update restrict;
+create index ix_delivery_point_deliveryPoin_7 on delivery_point (delivery_point_type_id);
+alter table library_user add constraint fk_library_user_userCategory_8 foreign key (user_category_id) references user_category (id) on delete restrict on update restrict;
+create index ix_library_user_userCategory_8 on library_user (user_category_id);
+alter table professor_user_category_characteristic add constraint fk_professor_user_category_cha_9 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
+create index ix_professor_user_category_cha_9 on professor_user_category_characteristic (library_user_id);
+alter table student_user_category_characteristic add constraint fk_student_user_category_char_10 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
+create index ix_student_user_category_char_10 on student_user_category_characteristic (library_user_id);
+alter table taken_book add constraint fk_taken_book_libraryUser_11 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
+create index ix_taken_book_libraryUser_11 on taken_book (library_user_id);
+alter table taken_book add constraint fk_taken_book_takenBookStatus_12 foreign key (taken_book_status_id) references taken_book_status (id) on delete restrict on update restrict;
+create index ix_taken_book_takenBookStatus_12 on taken_book (taken_book_status_id);
+alter table taken_book add constraint fk_taken_book_bookInstance_13 foreign key (book_instance_id) references book_instance (id) on delete restrict on update restrict;
+create index ix_taken_book_bookInstance_13 on taken_book (book_instance_id);
+alter table user_fine add constraint fk_user_fine_libraryUser_14 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
+create index ix_user_fine_libraryUser_14 on user_fine (library_user_id);
 
 
 
@@ -143,7 +146,7 @@ drop table if exists book;
 
 drop table if exists book_instance;
 
-drop table if exists books_transfer;
+drop table if exists book_transfer;
 
 drop table if exists delivery_point;
 

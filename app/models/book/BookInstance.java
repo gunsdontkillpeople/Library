@@ -30,19 +30,17 @@ public class BookInstance extends Model {
     public Book book;
 
     @ManyToOne
-    @NotNull
     public DeliveryPoint deliveryPoint;
 
-    @NotNull
     public Date date;
 
-    public static List<Pair<Book, Long>> instancesByDeliveryPointId(Long deliveryPointId){
+    public static List<Pair<Book, Long>> instancesByDeliveryPoint(DeliveryPoint deliveryPoint){
         String sql = "SELECT book.id AS id, count(*) as ct FROM book_instance\n" +
                 "JOIN book ON book.id = book_instance.book_id\n" +
                 "WHERE book_instance.delivery_point_id = :deliveryPointId\n" +
                 "GROUP BY book.id";
         SqlQuery query = Ebean.createSqlQuery(sql);
-        query.setParameter("deliveryPointId", deliveryPointId);
+        query.setParameter("deliveryPointId", deliveryPoint.id);
         List<SqlRow> sqlRows = query.findList();
         List<Pair<Book, Long>> ret = new ArrayList<>();
         for (SqlRow row : sqlRows) {
@@ -54,13 +52,13 @@ public class BookInstance extends Model {
         return ret;
     }
 
-    public static List<Pair<DeliveryPoint, Long>> instancesByBookId(Long bookId){
+    public static List<Pair<DeliveryPoint, Long>> instancesByBook(Book book){
         String sql = "SELECT delivery_point.id AS id, count(*) as ct FROM book_instance\n" +
                 "JOIN delivery_point ON delivery_point.id = book_instance.delivery_point_id\n" +
                 "WHERE book_instance.book_id = :bookId\n" +
                 "GROUP BY delivery_point.id";
         SqlQuery query = Ebean.createSqlQuery(sql);
-        query.setParameter("bookId", bookId);
+        query.setParameter("bookId", book.id);
         List<SqlRow> sqlRows = query.findList();
         List<Pair<DeliveryPoint, Long>> ret = new ArrayList<>();
         for (SqlRow row : sqlRows) {
@@ -68,6 +66,22 @@ public class BookInstance extends Model {
             DeliveryPoint deliveryPoint = (DeliveryPoint) new Finder(String.class, DeliveryPoint.class).byId(id);
             Long count = (Long) row.get("ct");
             ret.add(new Pair<>(deliveryPoint, count));
+        }
+        return ret;
+    }
+
+    public static List<BookInstance> instancesByDeliveryPointAndBook(DeliveryPoint deliveryPoint, Book book){
+        String sql = "SELECT book_instance.id AS id FROM book_instance\n" +
+                "JOIN delivery_point ON delivery_point.id = book_instance.delivery_point_id\n" +
+                "WHERE book_instance.book_id = :bookId AND book_instance.delivery_point_id = :deliveryPointId";
+        SqlQuery query = Ebean.createSqlQuery(sql);
+        query.setParameter("bookId", book.id);
+        query.setParameter("deliveryPointId", deliveryPoint.id);
+        List<SqlRow> sqlRows = query.findList();
+        List<BookInstance> ret = new ArrayList<>();
+        for (SqlRow row : sqlRows) {
+            Long id = (Long)row.get("id");
+            ret.add((BookInstance) new Finder(String.class, BookInstance.class).byId(id));
         }
         return ret;
     }

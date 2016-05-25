@@ -6,9 +6,9 @@
  *@
 @import models.user.UserCategory
 @import models.user.LibraryUser
-@(userCategories:List[UserCategory], userCategory:UserCategory, users:List[LibraryUser])
+@(userCategories:List[UserCategory], userCategory:UserCategory, users:List[LibraryUser], selectedUser:LibraryUser)
 
-@main("Users"){
+@main("Add users"){
     <table class="table table-bordered" valign="top" cellspacing="20">
         <thead>
             <tr>
@@ -24,10 +24,11 @@
                         <select multiple="multiple" class="form-control" name="UserCategory" size="@userCategories.size()" required>
                         @for(category <- userCategories){
                             @if(userCategory != null && category.id == userCategory.id) {
-                                <option value="@category.id" selected="selected">@category.name</option>
+                                <option value="@category.id" selected="selected">
                             }else{
-                                <option value="@category.id">@category.name</option>
+                                <option value="@category.id">
                             }
+                            @category.name</option>
                         }
                         </select>
                         <br><button type="submit" class="btn btn-primary">Select category</button>
@@ -35,14 +36,47 @@
 
                     <br>
                     <br>
-
                     <form action="@routes.LibraryController.addUser" method="post">
-                        <label>User name</label><br>
-                        <input type="text" name="name" required value="Ivan"><br>
-                        <label>User middlename</label><br>
-                        <input type="text" name="middlename" required value="Ivanovich"><br>
-                        <label>User surname</label><br>
-                        <input type="text" name="surname" required value="Ivanov"><br>
+                        <table class="table table-bordered" valign="top" cellspacing="20">
+                            <thead>
+                                <tr>
+                                    <th>Main info</th>
+                                    <th>Additional info</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label>User name</label><br>
+                                        <input type="text" name="name" required value="Ivan"><br>
+                                        <label>User middlename</label><br>
+                                        <input type="text" name="middlename" required value="Ivanovich"><br>
+                                        <label>User surname</label><br>
+                                        <input type="text" name="surname" required value="Ivanov"><br>
+
+                                    </td>
+                                    <td>
+                                        @if(userCategory.name == "Student"){
+                                            <label>Faculty</label><br>
+                                            <input type="text" name="faculty" required value="FIT"><br>
+                                            <label>Group</label><br>
+                                            <input type="text" name="group" required value="13202"><br>
+                                        }
+                                        @if(userCategory.name == "Professor"){
+                                            <label>Rank</label><br>
+                                            <input type="text" name="rank" required value="Associate Professor"><br>
+                                            <label>Chair</label><br>
+                                            <input type="text" name="chair" required value="IT"><br>
+                                            <label>Degree</label><br>
+                                            <input type="text" name="degree" required value="PhD"><br>
+                                        }
+                                        @if(userCategory.name != "Professor" && userCategory.name != "Student"){
+                                            <label>Not required</label><br>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <br><button type="submit" class="btn btn-primary">Add @userCategory.name</button>
                     </form>
                 </td>
@@ -71,4 +105,18 @@
             </tr>
         </tbody>
     </table>
+
+    <form action="@routes.LibraryController.selectUser" method="post">
+        <p><select multiple="multiple" class="form-control" name="Users" size="@users.size()" required>
+        @for(user <- users) {
+            @if(selectedUser != null && selectedUser.id == user.id){
+                <option value="@user.id" selected="selected">
+            }else{
+                <option value="@user.id">
+            }
+            Name: @user.name @user.middlename @user.surname, Category: @user.userCategory.name
+        }
+        </select>
+            <br><button type="submit" class="btn btn-primary">Work with this user</button>
+    </form>
 }
