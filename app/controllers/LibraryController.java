@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Model;
 import models.book.Book;
 import models.book.BookInstance;
+import models.book.TakenBook;
 import models.deliverypoint.BookTransfer;
 import models.deliverypoint.DeliveryPoint;
 import models.deliverypoint.DeliveryPointType;
@@ -36,8 +37,7 @@ public class LibraryController extends Controller {
 
     public LibraryController(){
         if(new Model.Finder(String.class, DeliveryPointType.class).all().isEmpty()) {
-            Assistant.initLibraryUserCategories();
-            Assistant.initDeliveryPointTypes();
+            Assistant.initDB();
         }
         selectedDeliveryPointType = (DeliveryPointType) new Model.Finder(String.class, DeliveryPointType.class).all().get(0);
         selectedUserCategory = (UserCategory) new Model.Finder(String.class, UserCategory.class).all().get(0);
@@ -58,7 +58,7 @@ public class LibraryController extends Controller {
         List<Book> books = new Model.Finder(String.class, Book.class).all();
         List<Pair<DeliveryPoint, Long>> deliveryPointAmount = null;
         if(selectedBook != null){
-            deliveryPointAmount = BookInstance.instancesByBook(selectedBook);
+            deliveryPointAmount = BookInstance.byBook(selectedBook);
         }
         return ok(instances.render(books, selectedBook, selectedDeliveryPoint, deliveryPointAmount));
     }
@@ -67,6 +67,22 @@ public class LibraryController extends Controller {
         List<UserCategory> userCategories = new Model.Finder<>(String.class, UserCategory.class).all();
         List<LibraryUser> libraryUsers = new Model.Finder<>(String.class, LibraryUser.class).all();
         return ok(users.render(userCategories, selectedUserCategory, libraryUsers, selectedLibraryUser));
+    }
+
+    public Result workWithUserPage() {
+        List<TakenBook> takenBooks = null;
+        if(selectedLibraryUser != null){
+            takenBooks = TakenBook.byUserCurrently(selectedLibraryUser);
+        }
+        List<Pair<Book, Long>> bookInstances = null;
+        if(selectedDeliveryPoint != null){
+            bookInstances = BookInstance.byDeliveryPoint(selectedDeliveryPoint);
+        }
+        List<BookTransfer> transfers = null;
+        if(selectedLibraryUser != null){
+            transfers = BookTransfer.byUser(selectedLibraryUser);
+        }
+        return ok(workWithUser.render(selectedLibraryUser, takenBooks, bookInstances, transfers, selectedDeliveryPoint));
     }
 
     public Result deliveryPointsPage() {
@@ -78,7 +94,7 @@ public class LibraryController extends Controller {
     public Result deliveryPointBooksPage() {
         List<Pair<Book, Long>> booksByDeliveryPoint = null;
         if(selectedDeliveryPoint != null){
-            booksByDeliveryPoint = BookInstance.instancesByDeliveryPoint(selectedDeliveryPoint);
+            booksByDeliveryPoint = BookInstance.byDeliveryPoint(selectedDeliveryPoint);
         }
         return ok(deliveryPointBooks.render(selectedDeliveryPoint, booksByDeliveryPoint));
     }
@@ -87,7 +103,7 @@ public class LibraryController extends Controller {
         List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
         List<Pair<Book, Long>> booksByDeliveryPoint = null;
         if(selectedDeliveryPointSrc != null){
-            booksByDeliveryPoint = BookInstance.instancesByDeliveryPoint(selectedDeliveryPointSrc);
+            booksByDeliveryPoint = BookInstance.byDeliveryPoint(selectedDeliveryPointSrc);
         }
         return ok(transfers.render(points, selectedDeliveryPointSrc, selectedDeliveryPoint, booksByDeliveryPoint, selectedBook, selectedLibraryUser));
     }
@@ -115,6 +131,7 @@ public class LibraryController extends Controller {
             bookInstance.date = date;
             bookInstance.book = selectedBook;
             bookInstance.deliveryPoint = selectedDeliveryPoint;
+            bookInstance.bookInstanceStatus = "Delivery point";
             bookInstance.save();
         }
 
@@ -201,15 +218,59 @@ public class LibraryController extends Controller {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         selectedBook = (Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"));
-        List<BookInstance> bookInstances = BookInstance.instancesByDeliveryPointAndBook(selectedDeliveryPointSrc, selectedBook);
+        List<BookInstance> bookInstances = BookInstance.byDeliveryPointAndBook(selectedDeliveryPointSrc, selectedBook);
         if(!bookInstances.isEmpty()){
             BookInstance instance = bookInstances.get(0);
             instance.deliveryPoint = null;
             instance.date = null;
+            instance.bookInstanceStatus = "Transfer";
             BookTransfer transfer = new BookTransfer(instance, selectedLibraryUser, selectedDeliveryPointSrc, selectedDeliveryPoint, Assistant.today(), Assistant.nextDay(10));
             instance.update();
             transfer.save();
         }
         return redirect(routes.LibraryController.transfersPage());
+    }
+
+    public Result returnBook() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        TakenBook takenBook = (TakenBook) new Model.Finder(String.class, TakenBook.class).byId(data.get("TakenBooks"));
+        BookInstance bookInstance = takenBook.bookInstance;
+        takenBook.takenBookStatus = "Returned";
+        takenBook.returnDate = Assistant.today();
+        bookInstance.bookInstanceStatus = "Delivery point";
+        takenBook.update();
+        bookInstance.update();
+        return redirect(routes.LibraryController.workWithUserPage());
+    }
+
+    public Result takeBook() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        Book book = (Book) new Model.Finder(String.class, Book.class).byId(data.get("TakeBook"));
+        List<BookInstance> bookInstances = BookInstance.byDeliveryPointAndBook(selectedDeliveryPoint, book);
+        if(!bookInstances.isEmpty()){
+            BookInstance instance = bookInstances.get(0);
+            instance.bookInstanceStatus = "User";
+            TakenBook takenBook = new TakenBook(selectedLibraryUser, "User", instance, Assistant.today(), Assistant.nextDay(30));
+            instance.update();
+            takenBook.save();
+        }
+        return redirect(routes.LibraryController.workWithUserPage());
+    }
+
+    public Result takeBookFromTransfer() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        BookTransfer bookTransfer = (BookTransfer) new Model.Finder(String.class, BookTransfer.class).byId(data.get("TakeBook"));
+        BookInstance instance = bookTransfer.bookInstance;
+        instance.bookInstanceStatus = "User";
+        instance.deliveryPoint = selectedDeliveryPoint;
+        instance.date = Assistant.today();
+        TakenBook takenBook = new TakenBook(selectedLibraryUser, "User", instance, Assistant.today(), Assistant.nextDay(30));
+        instance.update();
+        takenBook.save();
+        bookTransfer.delete();
+        return redirect(routes.LibraryController.workWithUserPage());
     }
 }

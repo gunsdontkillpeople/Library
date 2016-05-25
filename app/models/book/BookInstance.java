@@ -6,6 +6,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
+import models.user.LibraryUser;
 import utils.Pair;
 
 import javax.persistence.*;
@@ -32,12 +33,20 @@ public class BookInstance extends Model {
     @ManyToOne
     public DeliveryPoint deliveryPoint;
 
+    @NotNull
+    public String bookInstanceStatus;
+
     public Date date;
 
-    public static List<Pair<Book, Long>> instancesByDeliveryPoint(DeliveryPoint deliveryPoint){
+    @Override
+    public String toString(){
+        return "Title: " + book.title + ", Author" + book.author + " (Status: " + bookInstanceStatus + ")";
+    }
+
+    public static List<Pair<Book, Long>> byDeliveryPoint(DeliveryPoint deliveryPoint){
         String sql = "SELECT book.id AS id, count(*) as ct FROM book_instance\n" +
                 "JOIN book ON book.id = book_instance.book_id\n" +
-                "WHERE book_instance.delivery_point_id = :deliveryPointId\n" +
+                "WHERE book_instance.delivery_point_id = :deliveryPointId AND book_instance.book_instance_status LIKE 'Delivery point'\n" +
                 "GROUP BY book.id";
         SqlQuery query = Ebean.createSqlQuery(sql);
         query.setParameter("deliveryPointId", deliveryPoint.id);
@@ -52,10 +61,10 @@ public class BookInstance extends Model {
         return ret;
     }
 
-    public static List<Pair<DeliveryPoint, Long>> instancesByBook(Book book){
+    public static List<Pair<DeliveryPoint, Long>> byBook(Book book){
         String sql = "SELECT delivery_point.id AS id, count(*) as ct FROM book_instance\n" +
                 "JOIN delivery_point ON delivery_point.id = book_instance.delivery_point_id\n" +
-                "WHERE book_instance.book_id = :bookId\n" +
+                "WHERE book_instance.book_id = :bookId AND book_instance.book_instance_status LIKE 'Delivery point'\n" +
                 "GROUP BY delivery_point.id";
         SqlQuery query = Ebean.createSqlQuery(sql);
         query.setParameter("bookId", book.id);
@@ -70,10 +79,10 @@ public class BookInstance extends Model {
         return ret;
     }
 
-    public static List<BookInstance> instancesByDeliveryPointAndBook(DeliveryPoint deliveryPoint, Book book){
+    public static List<BookInstance> byDeliveryPointAndBook(DeliveryPoint deliveryPoint, Book book){
         String sql = "SELECT book_instance.id AS id FROM book_instance\n" +
                 "JOIN delivery_point ON delivery_point.id = book_instance.delivery_point_id\n" +
-                "WHERE book_instance.book_id = :bookId AND book_instance.delivery_point_id = :deliveryPointId";
+                "WHERE book_instance.book_id = :bookId AND book_instance.delivery_point_id = :deliveryPointId AND book_instance.book_instance_status LIKE 'Delivery point'";
         SqlQuery query = Ebean.createSqlQuery(sql);
         query.setParameter("bookId", book.id);
         query.setParameter("deliveryPointId", deliveryPoint.id);

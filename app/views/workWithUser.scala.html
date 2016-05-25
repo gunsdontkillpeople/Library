@@ -1,0 +1,82 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+
+@import models.user.LibraryUser
+@import models.book.TakenBook
+@import utils.Pair
+@import models.book.Book
+@import models.deliverypoint.DeliveryPointType
+@import models.deliverypoint.BookTransfer
+@import models.deliverypoint.DeliveryPoint
+@(selectedUser:LibraryUser, books:List[TakenBook], inDeliveryPoint:List[Pair[Book,Long]], bookTransfers:List[BookTransfer], deliveryPoint:DeliveryPoint)
+
+@main("Work with user"){
+    <table class="table table-bordered" valign="top" cellspacing="20">
+        <thead>
+            <tr>
+                <th>Book instances you have</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @if(books != null){
+                        <form action="@routes.LibraryController.returnBook" method="post">
+                            <p><select multiple="multiple" class="form-control" name="TakenBooks" size="@books.size()" required>
+                            @for(book <- books) {
+                                <option value="@book.id">@book.toString()
+                            }
+                            </select>
+                                <br><button type="submit" class="btn btn-primary">Return book</button>
+                        </form>
+                    }else{
+                        <p>User is not specified</p><br>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>Take book</th>
+            </tr>
+            <tr>
+                <td>
+                    @if(selectedUser != null){
+                        @if(inDeliveryPoint != null){
+                            @if(deliveryPoint.deliveryPointType.name != "Reading room" && selectedUser.userCategory.name != "Student" && selectedUser.userCategory.name != "Professor"){
+                                <label>This type of user only allowed to take books in reading room</label>
+                            }else{
+                                <label>Take book from current delivery point</label><br>
+                                <form action="@routes.LibraryController.takeBook" method="post">
+                                    <p><select multiple="multiple" class="form-control" name="TakeBook" size="@inDeliveryPoint.size()" required>
+                                        @for(book <- inDeliveryPoint) {
+                                            <option value="@book.first.id">@book.first.toString() Amount: @book.second
+                                        }
+                                    </select>
+                                        <br><button type="submit" class="btn btn-warning">Take book</button>
+                                </form>
+                                <br><br>
+                                <label>Take book from previously create transfer</label><br>
+                                <form action="@routes.LibraryController.takeBookFromTransfer" method="post">
+                                    <p><select multiple="multiple" class="form-control" name="TakeBook" size="@bookTransfers.size()" required>
+                                        @for(tr <- bookTransfers) {
+                                            <option value="@tr.id">@tr.toString()
+                                        }
+                                    </select>
+                                        <br><button type="submit" class="btn btn-warning">Take transfered book</button>
+                                </form>
+
+                            }
+                        }else{
+                            <p>Delivery point is not specified</p><br>
+                        }
+                    }else{
+                        <p>User is not specified</p>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

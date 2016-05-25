@@ -3,6 +3,7 @@ package utils;
 import models.deliverypoint.DeliveryPointType;
 import models.user.UserCategory;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,12 +30,17 @@ public class Assistant {
         return date;
     }
 
-    public static void initDeliveryPointTypes() {
+    public static void initDB(){
+        initDeliveryPointTypes();
+        initLibraryUserCategories();
+    }
+
+    private static void initDeliveryPointTypes() {
         new DeliveryPointType("Delivery desk").save();
         new DeliveryPointType("Reading room").save();
     }
 
-    public static void initLibraryUserCategories() {
+    private static void initLibraryUserCategories() {
         new UserCategory("Student").save();
         new UserCategory("Professor").save();
         new UserCategory("Enrollee").save();
@@ -55,5 +61,10 @@ public class Assistant {
         c.setTime(today());
         c.add(Calendar.DATE, days);
         return c.getTime();
+    }
+
+    public static String dateToString(Date date){
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(date);
     }
 }

@@ -33,6 +33,6 @@ public class Book extends Model {
 
     @Override
     public String toString(){
-        return "Author: " + author + "\t\tTitle: " + title;
+        return "Author: " + author + ", Title: " + title;
     }
 }

@@ -19,6 +19,7 @@ GET     /addUsers                   controllers.LibraryController.addUsersPage
 GET     /deliveryPoints             controllers.LibraryController.deliveryPointsPage
 GET     /deliveryPointBooks         controllers.LibraryController.deliveryPointBooksPage
 GET     /transfers                  controllers.LibraryController.transfersPage
+GET     /workWithUser               controllers.LibraryController.workWithUserPage
 
 # Posts
 POST    /addBooks                   controllers.LibraryController.addBook
@@ -35,5 +36,8 @@ POST    /selectBook                 controllers.LibraryController.selectBook
 POST    /selectUserCategory         controllers.LibraryController.selectUserCategory
 POST    /selectUser                 controllers.LibraryController.selectUser
 
-# Makers
+# Do some work
 POST    /makeTransfer               controllers.LibraryController.makeTransfer
+POST    /returnBook                 controllers.LibraryController.returnBook
+POST    /takeBook                   controllers.LibraryController.takeBook
+POST    /takeBookFromTransfer       controllers.LibraryController.takeBookFromTransfer

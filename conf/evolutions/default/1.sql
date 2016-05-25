@@ -16,6 +16,7 @@ create table book_instance (
   id                        bigint auto_increment not null,
   book_id                   bigint not null,
   delivery_point_id         bigint,
+  book_instance_status      varchar(255) not null,
   date                      timestamp,
   constraint pk_book_instance primary key (id))
 ;
@@ -77,19 +78,11 @@ create table student_user_category_characteristic (
 create table taken_book (
   id                        bigint auto_increment not null,
   library_user_id           bigint not null,
-  taken_book_status_id      bigint not null,
+  taken_book_status         varchar(255) not null,
   book_instance_id          bigint not null,
   take_date                 timestamp not null,
   return_date               timestamp not null,
-  constraint uq_taken_book_library_user_id unique (library_user_id),
-  constraint uq_taken_book_book_instance_id unique (book_instance_id),
   constraint pk_taken_book primary key (id))
-;
-
-create table taken_book_status (
-  id                        bigint auto_increment not null,
-  name                      varchar(255) not null,
-  constraint pk_taken_book_status primary key (id))
 ;
 
 create table user_category (
@@ -129,12 +122,10 @@ alter table student_user_category_characteristic add constraint fk_student_user_
 create index ix_student_user_category_char_10 on student_user_category_characteristic (library_user_id);
 alter table taken_book add constraint fk_taken_book_libraryUser_11 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
 create index ix_taken_book_libraryUser_11 on taken_book (library_user_id);
-alter table taken_book add constraint fk_taken_book_takenBookStatus_12 foreign key (taken_book_status_id) references taken_book_status (id) on delete restrict on update restrict;
-create index ix_taken_book_takenBookStatus_12 on taken_book (taken_book_status_id);
-alter table taken_book add constraint fk_taken_book_bookInstance_13 foreign key (book_instance_id) references book_instance (id) on delete restrict on update restrict;
-create index ix_taken_book_bookInstance_13 on taken_book (book_instance_id);
-alter table user_fine add constraint fk_user_fine_libraryUser_14 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
-create index ix_user_fine_libraryUser_14 on user_fine (library_user_id);
+alter table taken_book add constraint fk_taken_book_bookInstance_12 foreign key (book_instance_id) references book_instance (id) on delete restrict on update restrict;
+create index ix_taken_book_bookInstance_12 on taken_book (book_instance_id);
+alter table user_fine add constraint fk_user_fine_libraryUser_13 foreign key (library_user_id) references library_user (id) on delete restrict on update restrict;
+create index ix_user_fine_libraryUser_13 on user_fine (library_user_id);
 
 
 
@@ -159,8 +150,6 @@ drop table if exists professor_user_category_characteristic;
 drop table if exists student_user_category_characteristic;
 
 drop table if exists taken_book;
-
-drop table if exists taken_book_status;
 
 drop table if exists user_category;
 
