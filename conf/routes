@@ -18,12 +18,12 @@ GET     /books                      controllers.LibraryController.booksPage
 
 GET     /instances                  controllers.LibraryController.instancesPage
 
-GET     /addUsers                   controllers.LibraryController.addUsersPage
+GET     /addUsers                   controllers.LibraryController.addUserPage
 GET     /workWithUser               controllers.LibraryController.workWithUserPage
 GET     /userFines                  controllers.LibraryController.userFinesPage
 
-GET     /deliveryPoints             controllers.LibraryController.deliveryPointsPage
-GET     /deliveryPointBooks         controllers.LibraryController.deliveryPointBooksPage
+GET     /addDeliveryPoint           controllers.LibraryController.addDeliveryPointPage
+GET     /workWithDeliveryPoint      controllers.LibraryController.workWithDeliveryPointPage
 
 GET     /transfers                  controllers.LibraryController.transfersPage
 
@@ -34,6 +34,7 @@ POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoi
 POST    /addUser                    controllers.LibraryController.addUser
 POST    /makeTransfer               controllers.LibraryController.makeTransfer
 POST    /returnBook                 controllers.LibraryController.returnBook
+POST    /lostBook                   controllers.LibraryController.lostBook
 POST    /takeBook                   controllers.LibraryController.takeBook
 POST    /takeBookFromTransfer       controllers.LibraryController.takeBookFromTransfer
 POST    /resolveFine                controllers.LibraryController.resolveFine
@@ -42,7 +43,7 @@ POST    /resolveFine                controllers.LibraryController.resolveFine
 POST    /selectDeliveryPoint        controllers.LibraryController.selectDeliveryPoint
 POST    /selectDeliveryPointSrc     controllers.LibraryController.selectDeliveryPointSrc
 POST    /selectDeliveryPointDst     controllers.LibraryController.selectDeliveryPointDst
-POST    /addDeliveryPointType       controllers.LibraryController.selectDeliveryPointType
+POST    /selectDeliveryPointType    controllers.LibraryController.selectDeliveryPointType
 POST    /selectBook                 controllers.LibraryController.selectBook
 POST    /selectUserCategory         controllers.LibraryController.selectUserCategory
 POST    /selectUser                 controllers.LibraryController.selectUser

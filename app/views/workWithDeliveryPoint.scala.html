@@ -8,9 +8,22 @@
 @import models.book.Book
 @import utils.Pair
 @import models.deliverypoint.DeliveryPoint
-@(selectedDeliveryPoint:DeliveryPoint, booksInDeliveryPoint: List[Pair[Book,Long]])
+@(selectedDeliveryPoint:DeliveryPoint, deliveryPoints:List[DeliveryPoint], booksInDeliveryPoint: List[Pair[Book,Long]])
 
-@main("--> Delivery point books"){
+@main("--> Work with delivery point"){
+    <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
+        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
+        @for(point <- deliveryPoints) {
+            @if(selectedDeliveryPoint != null && selectedDeliveryPoint.id == point.id){
+                <option value="@point.id" selected="selected">
+            }else{
+                <option value="@point.id">
+                }
+            @point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+        }
+        </select>
+            <br><button  type="submit" class="btn btn-primary">Work with selected delivery point</button>
+    </form><br>
     <table class="table table-bordered" valign="top" cellspacing="20">
         <thead>
             <tr>

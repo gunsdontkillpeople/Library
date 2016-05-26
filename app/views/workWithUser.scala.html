@@ -12,9 +12,22 @@
 @import models.deliverypoint.DeliveryPointType
 @import models.deliverypoint.BookTransfer
 @import models.deliverypoint.DeliveryPoint
-@(selectedUser:LibraryUser, books:List[TakenBook], inDeliveryPoint:List[Pair[Book,Long]], bookTransfers:List[BookTransfer], deliveryPoint:DeliveryPoint)
+@(selectedUser:LibraryUser, users:List[LibraryUser], books:List[TakenBook], inDeliveryPoint:List[Pair[Book,Long]], bookTransfers:List[BookTransfer], deliveryPoint:DeliveryPoint)
 
 @main("--> Work with user"){
+    <form action="@routes.LibraryController.selectUser" method="post">
+        <p><select multiple="multiple" class="form-control" name="Users" size="@users.size()" required>
+        @for(user <- users) {
+            @if(selectedUser != null && selectedUser.id == user.id){
+                <option value="@user.id" selected="selected">
+            }else{
+                <option value="@user.id">
+                }
+            Name: @user.name @user.middlename @user.surname, Category: @user.userCategory.name
+        }
+        </select>
+            <br><button type="submit" class="btn btn-primary">Work with this user</button>
+    </form><br>
     <table class="table table-bordered" valign="top" cellspacing="20">
         <thead>
             <tr>
@@ -32,6 +45,20 @@
                             }
                             </select>
                                 <br><button type="submit" class="btn btn-primary">Return book</button>
+                        </form>
+                    }else{
+                        <p>User is not specified</p><br>
+                    }
+                </td>
+                <td>
+                    @if(books != null){
+                        <form action="@routes.LibraryController.lostBook" method="post">
+                            <p><select multiple="multiple" class="form-control" name="TakenBooks" size="@books.size()" required>
+                            @for(book <- books) {
+                                <option value="@book.id">@book.toString()
+                                }
+                            </select>
+                                <br><button type="submit" class="btn btn-danger">Sorry, but I lost it!</button>
                         </form>
                     }else{
                         <p>User is not specified</p><br>

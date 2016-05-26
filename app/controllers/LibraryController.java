@@ -7,10 +7,7 @@ import models.book.TakenBook;
 import models.deliverypoint.BookTransfer;
 import models.deliverypoint.DeliveryPoint;
 import models.deliverypoint.DeliveryPointType;
-import models.user.LibraryUser;
-import models.user.ProfessorUserCategoryCharacteristic;
-import models.user.StudentUserCategoryCharacteristic;
-import models.user.UserCategory;
+import models.user.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -35,8 +32,8 @@ public class LibraryController extends Controller {
     private UserCategory selectedUserCategory = null;
     private LibraryUser selectedLibraryUser = null;
 
-    public LibraryController(){
-        if(new Model.Finder(String.class, DeliveryPointType.class).all().isEmpty()) {
+    public LibraryController() {
+        if (new Model.Finder(String.class, DeliveryPointType.class).all().isEmpty()) {
             Assistant.initDB();
         }
         selectedDeliveryPointType = (DeliveryPointType) new Model.Finder(String.class, DeliveryPointType.class).all().get(0);
@@ -63,10 +60,10 @@ public class LibraryController extends Controller {
         return ok(instances.render(books, selectedBook, selectedDeliveryPoint, deliveryPointAmount));
     }
 
-    public Result addUsersPage() {
+    public Result addUserPage() {
         List<UserCategory> userCategories = new Model.Finder<>(String.class, UserCategory.class).all();
         List<LibraryUser> libraryUsers = new Model.Finder<>(String.class, LibraryUser.class).all();
-        return ok(users.render(userCategories, selectedUserCategory, libraryUsers, selectedLibraryUser));
+        return ok(addUser.render(userCategories, selectedUserCategory, libraryUsers, selectedLibraryUser));
     }
 
     public Result workWithUserPage() {
@@ -82,25 +79,31 @@ public class LibraryController extends Controller {
         if(selectedLibraryUser != null){
             transfers = BookTransfer.byUser(selectedLibraryUser);
         }
-        return ok(workWithUser.render(selectedLibraryUser, takenBooks, bookInstances, transfers, selectedDeliveryPoint));
+        List<LibraryUser> libraryUsers = new Model.Finder<>(String.class, LibraryUser.class).all();
+        return ok(workWithUser.render(selectedLibraryUser, libraryUsers, takenBooks, bookInstances, transfers, selectedDeliveryPoint));
     }
 
     public Result userFinesPage() {
-        return play.mvc.Results.TODO;
+        List<UserFine> fines = null;
+        if(selectedLibraryUser != null){
+            fines = UserFine.byUser(selectedLibraryUser);
+        }
+        return ok(userFines.render(selectedLibraryUser, fines));
     }
 
-    public Result deliveryPointsPage() {
+    public Result addDeliveryPointPage() {
         List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
         List<DeliveryPointType> pointTypes = new Model.Finder(String.class, DeliveryPointType.class).all();
-        return ok(deliveryPoints.render(pointTypes, points, selectedDeliveryPointType, selectedDeliveryPoint));
+        return ok(addDeliveryPoint.render(pointTypes, points, selectedDeliveryPointType, selectedDeliveryPoint));
     }
 
-    public Result deliveryPointBooksPage() {
+    public Result workWithDeliveryPointPage() {
         List<Pair<Book, Long>> booksByDeliveryPoint = null;
         if(selectedDeliveryPoint != null){
             booksByDeliveryPoint = BookInstance.byDeliveryPoint(selectedDeliveryPoint);
         }
-        return ok(deliveryPointBooks.render(selectedDeliveryPoint, booksByDeliveryPoint));
+        List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
+        return ok(workWithDeliveryPoint.render(selectedDeliveryPoint, points, booksByDeliveryPoint));
     }
 
     public Result transfersPage() {
@@ -150,7 +153,7 @@ public class LibraryController extends Controller {
         deliveryPoint.address = data.get("address");
         deliveryPoint.deliveryPointType = selectedDeliveryPointType;
         deliveryPoint.save();
-        return redirect(routes.LibraryController.deliveryPointsPage());
+        return redirect(routes.LibraryController.addDeliveryPointPage());
     }
 
     public Result addUser() {
@@ -166,7 +169,7 @@ public class LibraryController extends Controller {
             ProfessorUserCategoryCharacteristic characteristic = new ProfessorUserCategoryCharacteristic(user, data.get("chair"), data.get("rank"), data.get("degree"));
             characteristic.save();
         }
-        return redirect(routes.LibraryController.addUsersPage());
+        return redirect(routes.LibraryController.addUserPage());
     }
 
     public Result makeTransfer() {
@@ -187,15 +190,28 @@ public class LibraryController extends Controller {
     }
 
     public Result returnBook() {
+        return returnBookHelper(true);
+    }
+
+    public Result lostBook() {
+        return returnBookHelper(false);
+    }
+
+    private Result returnBookHelper(boolean isReturned){
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         TakenBook takenBook = (TakenBook) new Model.Finder(String.class, TakenBook.class).byId(data.get("TakenBooks"));
         BookInstance bookInstance = takenBook.bookInstance;
-        takenBook.takenBookStatus = "Returned";
-        takenBook.returnDate = Assistant.today();
-        bookInstance.bookInstanceStatus = "Delivery point";
-        takenBook.update();
+        if(isReturned) {
+            takenBook.takenBookStatus = "Returned";
+            bookInstance.bookInstanceStatus = "Delivery point";
+        }else{
+            takenBook.takenBookStatus = "Lost";
+            bookInstance.bookInstanceStatus = "Lost";
+            bookInstance.deliveryPoint = null;
+        }
         bookInstance.update();
+        takenBook.update();
         return redirect(routes.LibraryController.workWithUserPage());
     }
 
@@ -230,14 +246,18 @@ public class LibraryController extends Controller {
     }
 
     public Result resolveFine() {
-        return play.mvc.Results.TODO;
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        UserFine fine = (UserFine) new Model.Finder(String.class, UserFine.class).byId(data.get("Fines"));
+        fine.delete();
+        return redirect(routes.LibraryController.userFinesPage());
     }
 
     public Result selectDeliveryPoint() {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
-        return redirect(routes.LibraryController.deliveryPointsPage());
+        return redirect(routes.LibraryController.workWithDeliveryPointPage());
     }
 
     public Result selectDeliveryPointSrc() {
@@ -258,7 +278,7 @@ public class LibraryController extends Controller {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         selectedDeliveryPointType = (DeliveryPointType) new Model.Finder(String.class, DeliveryPointType.class).byId(data.get("Delivery Points"));
-        return redirect(routes.LibraryController.deliveryPointsPage());
+        return redirect(routes.LibraryController.addDeliveryPointPage());
     }
 
     public Result selectBook() {
@@ -272,13 +292,13 @@ public class LibraryController extends Controller {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         selectedUserCategory = (UserCategory) new Model.Finder(String.class, UserCategory.class).byId(data.get("UserCategory"));
-        return redirect(routes.LibraryController.addUsersPage());
+        return redirect(routes.LibraryController.addUserPage());
     }
 
     public Result selectUser() {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
         selectedLibraryUser = (LibraryUser) new Model.Finder(String.class, LibraryUser.class).byId(data.get("Users"));
-        return redirect(routes.LibraryController.addUsersPage());
+        return redirect(routes.LibraryController.workWithUserPage());
     }
 }

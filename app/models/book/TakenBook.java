@@ -8,6 +8,7 @@ import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
 import models.user.LibraryUser;
+import models.user.UserFine;
 import utils.Assistant;
 import utils.Pair;
 
@@ -59,6 +60,26 @@ public class TakenBook extends Model {
         return "Title: " + book.title + ", Author: " + book.author + ", Take: " + Assistant.dateToString(takeDate) + ", Return: " +
                 Assistant.dateToString(returnDate) + " (Delivery point: " +
                 deliveryPoint.name + ", " + deliveryPoint.address + ": " + deliveryPoint.deliveryPointType.name + ")";
+    }
+
+    // TRIGGER!
+    @Override
+    public void update(){
+        super.save();
+        String newStatus = takenBookStatus;
+        switch(newStatus){
+            case "Returned":
+                Date today = Assistant.today();
+                if(returnDate.before(today)){
+                    UserFine fine = new UserFine(libraryUser, today, Assistant.nextDay(10), null);
+                    fine.save();
+                }
+                break;
+            case "Lost":
+                UserFine fine = new UserFine(libraryUser, null, null, bookInstance.book.price * 10);
+                fine.save();
+                break;
+        }
     }
 
     public static List<TakenBook> byUserCurrently(LibraryUser libraryUser){

@@ -9,7 +9,7 @@
 @import models.deliverypoint.DeliveryPointType
 @(deliveryPointTypes: List[DeliveryPointType], deliveryPoints:List[DeliveryPoint], deliveryPointType: DeliveryPointType, deliveryPoint: DeliveryPoint)
 
-@main("--> Delivery points"){
+@main("--> Add delivery point"){
     <table class="table table-bordered" valign="top" cellspacing="20">
         <thead>
             <tr>
@@ -45,19 +45,25 @@
                     </form>
                 </td>
                 <td>
-                    <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
-                        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
+                    <p>Delivery points that currently work</p>
+                    <table class="table table-bordered" valign="top" cellspacing="20">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @for(point <- deliveryPoints) {
-                            @if(deliveryPoint != null && deliveryPoint.id == point.id){
-                                <option value="@point.id" selected="selected">
-                            }else{
-                                <option value="@point.id">
-                            }
-                            @point.name, Address: @point.address (Type: @point.deliveryPointType.name)
+                            <tr>
+                                <td>@point.name</td>
+                                <td>@point.address</td>
+                                <td>@point.deliveryPointType.name</td>
+                            </tr>
                         }
-                        </select>
-                            <br><button  type="submit" class="btn btn-primary">Work with selected delivery point</button>
-                    </form>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </tbody>

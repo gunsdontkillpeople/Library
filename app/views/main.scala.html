@@ -51,20 +51,20 @@
                          }
                             <a href="@routes.LibraryController.instancesPage"><i class="fa fa-bar-chart-o fa-fw"></i>Instances</a>
                         </li>
-                        @if(title == "--> Add users" || title == "--> Work with user" || title == "--> User fines"){
+                        @if(title == "--> Add user" || title == "--> Work with user" || title == "--> User fines"){
                             <li class="active">
                         }else{
                             <li class="">
                          }
                             <a href="#"><i class="fa fa-flask fa-fw"></i>Users
-                                <span class="fa arrow" href="@routes.LibraryController.addUsersPage"></span></a>
+                                <span class="fa arrow" href="@routes.LibraryController.addUserPage"></span></a>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "--> Add users"){
+                                    @if(title == "--> Add user"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.addUsersPage">--> Users add/select</a>
+                                    <a href="@routes.LibraryController.addUserPage">--> Add user</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
@@ -86,29 +86,29 @@
                                 </li>
                                 </ul>
                         </li>
-                        @if(title == "--> Delivery points" || title == "--> Delivery point books"){
+                        @if(title == "--> Add delivery point" || title == "--> Work with delivery point"){
                             <li class="active">
                         }else{
                             <li class="">
                         }
                             <a href=""><i class="fa fa-table fa-fw"></i>Delivery points
-                                <span class="fa arrow" href="@routes.LibraryController.deliveryPointsPage"></span></a>
+                                <span class="fa arrow" href="@routes.LibraryController.addDeliveryPointPage"></span></a>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "--> Delivery points"){
+                                    @if(title == "--> Add delivery point"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.deliveryPointsPage">--> Delivery points add/select</a>
+                                    <a href="@routes.LibraryController.addDeliveryPointPage">--> Add delivery point</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "--> Delivery point books"){
+                                    @if(title == "--> Work with delivery point"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.deliveryPointBooksPage">--> Books by delivery point</a>
+                                    <a href="@routes.LibraryController.workWithDeliveryPointPage">--> Work with delivery point</a>
                                 </li>
                             </ul>
 

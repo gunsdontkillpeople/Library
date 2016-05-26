@@ -8,7 +8,7 @@
 @import models.user.LibraryUser
 @(userCategories:List[UserCategory], userCategory:UserCategory, users:List[LibraryUser], selectedUser:LibraryUser)
 
-@main("--> Add users"){
+@main("--> Add user"){
     <table class="table table-bordered" valign="top" cellspacing="20">
         <thead>
             <tr>
@@ -81,6 +81,7 @@
                     </form>
                 </td>
                 <td>
+                    <p>Users that are currently registered in the library</p>
                     <table class="table table-bordered" valign="top" cellspacing="20">
                         <thead>
                             <tr>
@@ -105,18 +106,4 @@
             </tr>
         </tbody>
     </table>
-
-    <form action="@routes.LibraryController.selectUser" method="post">
-        <p><select multiple="multiple" class="form-control" name="Users" size="@users.size()" required>
-        @for(user <- users) {
-            @if(selectedUser != null && selectedUser.id == user.id){
-                <option value="@user.id" selected="selected">
-            }else{
-                <option value="@user.id">
-            }
-            Name: @user.name @user.middlename @user.surname, Category: @user.userCategory.name
-        }
-        </select>
-            <br><button type="submit" class="btn btn-primary">Work with this user</button>
-    </form>
 }
