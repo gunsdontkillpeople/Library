@@ -15,7 +15,7 @@
 @import models.user.UserFine
 @(selectedUser:LibraryUser, userFines:List[UserFine])
 
-@main("--> Fines"){
+@main("--> User fines"){
     @if(selectedUser != null && userFines != null){
         <label>Here are fines that you currently have!</label><br>
         <form action="@routes.LibraryController.resolveFine" method="post">

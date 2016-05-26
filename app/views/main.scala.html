@@ -51,7 +51,7 @@
                          }
                             <a href="@routes.LibraryController.instancesPage"><i class="fa fa-bar-chart-o fa-fw"></i>Instances</a>
                         </li>
-                        @if(title == "--> Add users" || title == "--> Work with user" || title == "--> Fines"){
+                        @if(title == "--> Add users" || title == "--> Work with user" || title == "--> User fines"){
                             <li class="active">
                         }else{
                             <li class="">
@@ -76,14 +76,13 @@
                                     <a href="@routes.LibraryController.workWithUserPage">--> Work with user</a>
                                 </li>
                                 </ul>
-                                </ul>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "--> Fines"){
+                                    @if(title == "--> User fines"){
                                         <li class="selected">
                                     }else{
                                         <li>
-                                    }
-                                    <a href="@routes.LibraryController.userFinesPage">--> Fines</a>
+                                        }
+                                    <a href="@routes.LibraryController.userFinesPage">--> User fines</a>
                                 </li>
                                 </ul>
                         </li>
