@@ -45,7 +45,8 @@ public class UserController extends Controller {
             transfers = BookTransfer.byUser(Assistant.selectedLibraryUser);
         }
         List<LibraryUser> libraryUsers = LibraryUser.all();
-        return ok(workWithUser.render(Assistant.selectedLibraryUser, libraryUsers, takenBooks, bookInstances, transfers, Assistant.selectedDeliveryPoint));
+        String fineEndDate = UserFine.endDateByUser(Assistant.selectedLibraryUser);
+        return ok(workWithUser.render(Assistant.selectedLibraryUser, libraryUsers, takenBooks, bookInstances, transfers, Assistant.selectedDeliveryPoint, fineEndDate));
     }
 
     public Result userFinesPage() {

@@ -71,4 +71,18 @@ public class UserFine extends Model {
         }
         return ret;
     }
+
+    public static String endDateByUser(LibraryUser user){
+        if(user == null){
+            return null;
+        }
+        List<UserFine> fines = byUser(user);
+        Date today = Assistant.today();
+        for(UserFine fine : fines){
+            if(fine.price == null)
+                if(fine.fineEnd.after(today))
+                    return Assistant.dateToString(fine.fineEnd);
+        }
+        return null;
+    }
 }
