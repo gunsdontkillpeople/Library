@@ -2,9 +2,6 @@ package models.deliverypoint;
 
 
 import com.avaje.ebean.Model;
-import com.avaje.ebean.annotation.EnumValue;
-import models.book.Book;
-import models.user.StudentUserCategoryCharacteristic;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

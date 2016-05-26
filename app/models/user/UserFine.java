@@ -5,8 +5,6 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
-import models.book.Book;
-import models.book.BookInstance;
 import utils.Assistant;
 
 import javax.persistence.*;

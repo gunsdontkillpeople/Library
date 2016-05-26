@@ -2,11 +2,9 @@ package models.user;
 
 
 import com.avaje.ebean.Model;
-import models.book.Book;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.util.List;
 
 /**

@@ -8,7 +8,6 @@ import com.avaje.ebean.SqlRow;
 import models.book.Book;
 import models.book.BookInstance;
 import models.user.LibraryUser;
-import models.user.StudentUserCategoryCharacteristic;
 import utils.Assistant;
 
 import javax.persistence.*;

@@ -2,8 +2,6 @@ package models.deliverypoint;
 
 
 import com.avaje.ebean.Model;
-import models.book.Book;
-import models.user.StudentUserCategoryCharacteristic;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

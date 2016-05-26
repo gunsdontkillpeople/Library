@@ -2,7 +2,6 @@ package models.book;
 
 
 import com.avaje.ebean.Model;
-import models.user.StudentUserCategoryCharacteristic;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

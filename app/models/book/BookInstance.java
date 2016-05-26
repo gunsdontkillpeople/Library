@@ -6,8 +6,6 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
-import models.user.LibraryUser;
-import models.user.StudentUserCategoryCharacteristic;
 import utils.Pair;
 
 import javax.persistence.*;
@@ -15,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mistler on 19.05.16.

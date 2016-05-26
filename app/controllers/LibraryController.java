@@ -1,24 +1,11 @@
 package controllers;
 
-import com.avaje.ebean.Model;
-import models.book.Book;
-import models.book.BookInstance;
-import models.book.TakenBook;
-import models.deliverypoint.BookTransfer;
-import models.deliverypoint.DeliveryPoint;
 import models.deliverypoint.DeliveryPointType;
-import models.user.*;
-import play.data.DynamicForm;
-import play.data.Form;
+import models.user.UserCategory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.Assistant;
-import utils.Pair;
-import views.html.*;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import views.html.index;
 
 /**
  * This controller contains an action to handle HTTP requests

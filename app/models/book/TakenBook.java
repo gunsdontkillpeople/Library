@@ -1,17 +1,14 @@
 package models.book;
 
 
-import akka.stream.impl.fusing.Take;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
 import models.user.LibraryUser;
-import models.user.StudentUserCategoryCharacteristic;
 import models.user.UserFine;
 import utils.Assistant;
-import utils.Pair;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
