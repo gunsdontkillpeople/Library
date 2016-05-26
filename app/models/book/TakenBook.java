@@ -8,6 +8,7 @@ import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
 import models.user.LibraryUser;
+import models.user.StudentUserCategoryCharacteristic;
 import models.user.UserFine;
 import utils.Assistant;
 import utils.Pair;
@@ -44,6 +45,14 @@ public class TakenBook extends Model {
 
     @NotNull
     public Date returnDate;
+
+    public static List<TakenBook> all(){
+        return new Model.Finder(String.class, TakenBook.class).all();
+    }
+
+    public static TakenBook byId(Object id){
+        return (TakenBook) new Finder(String.class, TakenBook.class).byId(id);
+    }
 
     public TakenBook(LibraryUser user, String status, BookInstance instance, Date takeDate, Date returnDate){
         this.libraryUser = user;

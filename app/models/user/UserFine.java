@@ -5,6 +5,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
+import models.book.Book;
 import models.book.BookInstance;
 import utils.Assistant;
 
@@ -48,6 +49,14 @@ public class UserFine extends Model {
         }else{
             return "Fine: Start: " + Assistant.dateToString(fineStart) + ", End: " + Assistant.dateToString(fineEnd);
         }
+    }
+
+    public static List<UserFine> all(){
+        return new Model.Finder(String.class, UserFine.class).all();
+    }
+
+    public static UserFine byId(Object id){
+        return (UserFine) new Finder(String.class, UserFine.class).byId(id);
     }
 
     public static List<UserFine> byUser(LibraryUser selectedLibraryUser) {

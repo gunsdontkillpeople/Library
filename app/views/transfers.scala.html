@@ -24,7 +24,7 @@
         <tbody>
             <tr>
                 <td>
-                    <form action="@routes.LibraryController.selectDeliveryPointSrc" method="post">
+                    <form action="@routes.DeliveryPointController.selectDeliveryPointSrc" method="post">
                         <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
                         @for(point <- deliveryPoints) {
                             @if(src != null && src.id == point.id){
@@ -39,7 +39,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="@routes.LibraryController.selectDeliveryPointDst" method="post">
+                    <form action="@routes.DeliveryPointController.selectDeliveryPointDst" method="post">
                         <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
                         @for(point <- deliveryPoints) {
                             @if(dst != null && dst.id == point.id){
@@ -55,7 +55,7 @@
                 </td>
                 <td>
                     @if(src != null){
-                        <form action="@routes.LibraryController.makeTransfer" method="post">
+                        <form action="@routes.BookController.makeTransfer" method="post">
                             <p><select multiple="multiple" class="form-control" name="Books" size="@instances.size()" required>
                             @for(inst <- instances) {
                                 @if(book != null && book.id == inst.first.id){

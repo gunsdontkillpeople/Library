@@ -14,36 +14,36 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 # Pages
 GET     /                           controllers.LibraryController.index
 
-GET     /books                      controllers.LibraryController.booksPage
+GET     /books                      controllers.BookController.booksPage
 
-GET     /instances                  controllers.LibraryController.instancesPage
+GET     /instances                  controllers.BookController.instancesPage
 
-GET     /addUsers                   controllers.LibraryController.addUserPage
-GET     /workWithUser               controllers.LibraryController.workWithUserPage
-GET     /userFines                  controllers.LibraryController.userFinesPage
+GET     /addUsers                   controllers.UserController.addUserPage
+GET     /workWithUser               controllers.UserController.workWithUserPage
+GET     /userFines                  controllers.UserController.userFinesPage
 
-GET     /addDeliveryPoint           controllers.LibraryController.addDeliveryPointPage
-GET     /workWithDeliveryPoint      controllers.LibraryController.workWithDeliveryPointPage
+GET     /addDeliveryPoint           controllers.DeliveryPointController.addDeliveryPointPage
+GET     /workWithDeliveryPoint      controllers.DeliveryPointController.workWithDeliveryPointPage
 
-GET     /transfers                  controllers.LibraryController.transfersPage
+GET     /transfers                  controllers.BookController.transfersPage
 
 # Posts
-POST    /addBooks                   controllers.LibraryController.addBook
-POST    /addInstance                controllers.LibraryController.addInstance
-POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint
-POST    /addUser                    controllers.LibraryController.addUser
-POST    /makeTransfer               controllers.LibraryController.makeTransfer
-POST    /returnBook                 controllers.LibraryController.returnBook
-POST    /lostBook                   controllers.LibraryController.lostBook
-POST    /takeBook                   controllers.LibraryController.takeBook
-POST    /takeBookFromTransfer       controllers.LibraryController.takeBookFromTransfer
-POST    /resolveFine                controllers.LibraryController.resolveFine
+POST    /addBooks                   controllers.BookController.addBook
+POST    /addInstance                controllers.BookController.addInstance
+POST    /addDeliveryPoint           controllers.DeliveryPointController.addDeliveryPoint
+POST    /addUser                    controllers.UserController.addUser
+POST    /makeTransfer               controllers.BookController.makeTransfer
+POST    /returnBook                 controllers.UserController.returnBook
+POST    /lostBook                   controllers.UserController.lostBook
+POST    /takeBook                   controllers.UserController.takeBook
+POST    /takeBookFromTransfer       controllers.UserController.takeBookFromTransfer
+POST    /resolveFine                controllers.UserController.resolveFine
 
 # Selects
-POST    /selectDeliveryPoint        controllers.LibraryController.selectDeliveryPoint
-POST    /selectDeliveryPointSrc     controllers.LibraryController.selectDeliveryPointSrc
-POST    /selectDeliveryPointDst     controllers.LibraryController.selectDeliveryPointDst
-POST    /selectDeliveryPointType    controllers.LibraryController.selectDeliveryPointType
-POST    /selectBook                 controllers.LibraryController.selectBook
-POST    /selectUserCategory         controllers.LibraryController.selectUserCategory
-POST    /selectUser                 controllers.LibraryController.selectUser
+POST    /selectDeliveryPoint        controllers.DeliveryPointController.selectDeliveryPoint
+POST    /selectDeliveryPointSrc     controllers.DeliveryPointController.selectDeliveryPointSrc
+POST    /selectDeliveryPointDst     controllers.DeliveryPointController.selectDeliveryPointDst
+POST    /selectDeliveryPointType    controllers.DeliveryPointController.selectDeliveryPointType
+POST    /selectBook                 controllers.BookController.selectBook
+POST    /selectUserCategory         controllers.UserController.selectUserCategory
+POST    /selectUser                 controllers.UserController.selectUser

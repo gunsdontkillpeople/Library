@@ -18,7 +18,7 @@
 @main("--> User fines"){
     @if(selectedUser != null && userFines != null){
         <label>Here are fines that you currently have!</label><br>
-        <form action="@routes.LibraryController.resolveFine" method="post">
+        <form action="@routes.UserController.resolveFine" method="post">
             <p><select multiple="multiple" class="form-control" name="Fines" size="@userFines.size()" required>
             @for(fine <- userFines) {
                 <option value="@fine.id">@fine.toString()

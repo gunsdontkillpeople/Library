@@ -2,10 +2,12 @@ package models.user;
 
 
 import com.avaje.ebean.Model;
+import models.book.Book;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by mistler on 19.05.16.
@@ -35,5 +37,13 @@ public class LibraryUser extends Model {
         this.name = name;
         this.middlename = middlename;
         this.surname = surname;
+    }
+
+    public static List<LibraryUser> all(){
+        return new Model.Finder(String.class, LibraryUser.class).all();
+    }
+
+    public static LibraryUser byId(Object id){
+        return (LibraryUser) new Finder(String.class, LibraryUser.class).byId(id);
     }
 }

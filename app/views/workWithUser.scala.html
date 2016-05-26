@@ -15,7 +15,7 @@
 @(selectedUser:LibraryUser, users:List[LibraryUser], books:List[TakenBook], inDeliveryPoint:List[Pair[Book,Long]], bookTransfers:List[BookTransfer], deliveryPoint:DeliveryPoint)
 
 @main("--> Work with user"){
-    <form action="@routes.LibraryController.selectUser" method="post">
+    <form action="@routes.UserController.selectUser" method="post">
         <p><select multiple="multiple" class="form-control" name="Users" size="@users.size()" required>
         @for(user <- users) {
             @if(selectedUser != null && selectedUser.id == user.id){
@@ -38,7 +38,7 @@
             <tr>
                 <td>
                     @if(books != null){
-                        <form action="@routes.LibraryController.returnBook" method="post">
+                        <form action="@routes.UserController.returnBook" method="post">
                             <p><select multiple="multiple" class="form-control" name="TakenBooks" size="@books.size()" required>
                             @for(book <- books) {
                                 <option value="@book.id">@book.toString()
@@ -52,7 +52,7 @@
                 </td>
                 <td>
                     @if(books != null){
-                        <form action="@routes.LibraryController.lostBook" method="post">
+                        <form action="@routes.UserController.lostBook" method="post">
                             <p><select multiple="multiple" class="form-control" name="TakenBooks" size="@books.size()" required>
                             @for(book <- books) {
                                 <option value="@book.id">@book.toString()
@@ -76,7 +76,7 @@
                                 <label>This type of user only allowed to take books in reading room</label>
                             }else{
                                 <label>Take book from current delivery point</label><br>
-                                <form action="@routes.LibraryController.takeBook" method="post">
+                                <form action="@routes.UserController.takeBook" method="post">
                                     <p><select multiple="multiple" class="form-control" name="TakeBook" size="@inDeliveryPoint.size()" required>
                                         @for(book <- inDeliveryPoint) {
                                             <option value="@book.first.id">@book.first.toString() Amount: @book.second
@@ -86,7 +86,7 @@
                                 </form>
                                 <br><br>
                                 <label>Take book from previously create transfer</label><br>
-                                <form action="@routes.LibraryController.takeBookFromTransfer" method="post">
+                                <form action="@routes.UserController.takeBookFromTransfer" method="post">
                                     <p><select multiple="multiple" class="form-control" name="TakeBook" size="@bookTransfers.size()" required>
                                         @for(tr <- bookTransfers) {
                                             <option value="@tr.id">@tr.toString()

@@ -20,7 +20,7 @@
         <tbody>
             <tr>
                 <td valign="top">
-                    <form action="@routes.LibraryController.selectDeliveryPointType" method="post">
+                    <form action="@routes.DeliveryPointController.selectDeliveryPointType" method="post">
                         <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPointTypes.size()">
                         @for(point <- deliveryPointTypes){
                             @if(deliveryPointType != null && deliveryPointType.id == point.id) {
@@ -33,7 +33,7 @@
                         </select>
                             <br><button type="submit" class="btn btn-primary">Select delivery point type</button>
                     </form>
-                    <form action="@routes.LibraryController.addDeliveryPoint" method="post">
+                    <form action="@routes.DeliveryPointController.addDeliveryPoint" method="post">
 
                         <label>Name of the point</label><br>
                         <input type="text" name="name" value="name" required/>

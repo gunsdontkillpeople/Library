@@ -7,6 +7,7 @@ import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import models.deliverypoint.DeliveryPoint;
 import models.user.LibraryUser;
+import models.user.StudentUserCategoryCharacteristic;
 import utils.Pair;
 
 import javax.persistence.*;
@@ -41,6 +42,14 @@ public class BookInstance extends Model {
     @Override
     public String toString(){
         return "Title: " + book.title + ", Author" + book.author + " (Status: " + bookInstanceStatus + ")";
+    }
+
+    public static List<BookInstance> all(){
+        return new Model.Finder(String.class, BookInstance.class).all();
+    }
+
+    public static BookInstance byId(Object id){
+        return (BookInstance) new Finder(String.class, BookInstance.class).byId(id);
     }
 
     public static List<Pair<Book, Long>> byDeliveryPoint(DeliveryPoint deliveryPoint){

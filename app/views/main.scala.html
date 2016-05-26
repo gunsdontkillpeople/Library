@@ -42,14 +42,14 @@
                         }else{
                             <li class="">
                         }
-                            <a href="@routes.LibraryController.booksPage"><i class="fa fa-dashboard fa-fw"></i>Books</a>
+                            <a href="@routes.BookController.booksPage"><i class="fa fa-dashboard fa-fw"></i>Books</a>
                         </li>
                         @if(title == "Instances"){
                             <li class="selected">
                         }else{
                             <li class="">
                          }
-                            <a href="@routes.LibraryController.instancesPage"><i class="fa fa-bar-chart-o fa-fw"></i>Instances</a>
+                            <a href="@routes.BookController.instancesPage"><i class="fa fa-bar-chart-o fa-fw"></i>Instances</a>
                         </li>
                         @if(title == "--> Add user" || title == "--> Work with user" || title == "--> User fines"){
                             <li class="active">
@@ -57,14 +57,14 @@
                             <li class="">
                          }
                             <a href="#"><i class="fa fa-flask fa-fw"></i>Users
-                                <span class="fa arrow" href="@routes.LibraryController.addUserPage"></span></a>
+                                <span class="fa arrow" href="@routes.UserController.addUserPage"></span></a>
                                 <ul class="nav nav-second-level">
                                     @if(title == "--> Add user"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.addUserPage">--> Add user</a>
+                                    <a href="@routes.UserController.addUserPage">--> Add user</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
@@ -73,7 +73,7 @@
                                     }else{
                                         <li>
                                         }
-                                    <a href="@routes.LibraryController.workWithUserPage">--> Work with user</a>
+                                    <a href="@routes.UserController.workWithUserPage">--> Work with user</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
@@ -82,7 +82,7 @@
                                     }else{
                                         <li>
                                         }
-                                    <a href="@routes.LibraryController.userFinesPage">--> User fines</a>
+                                    <a href="@routes.UserController.userFinesPage">--> User fines</a>
                                 </li>
                                 </ul>
                         </li>
@@ -92,14 +92,14 @@
                             <li class="">
                         }
                             <a href=""><i class="fa fa-table fa-fw"></i>Delivery points
-                                <span class="fa arrow" href="@routes.LibraryController.addDeliveryPointPage"></span></a>
+                                <span class="fa arrow" href="@routes.DeliveryPointController.addDeliveryPointPage"></span></a>
                                 <ul class="nav nav-second-level">
                                     @if(title == "--> Add delivery point"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.addDeliveryPointPage">--> Add delivery point</a>
+                                    <a href="@routes.DeliveryPointController.addDeliveryPointPage">--> Add delivery point</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
@@ -108,7 +108,7 @@
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.workWithDeliveryPointPage">--> Work with delivery point</a>
+                                    <a href="@routes.DeliveryPointController.workWithDeliveryPointPage">--> Work with delivery point</a>
                                 </li>
                             </ul>
 
@@ -118,7 +118,7 @@
                         }else{
                             <li class="">
                          }
-                            <a href="@routes.LibraryController.transfersPage"><i class="fa fa-edit fa-fw"></i>Transfers</a>
+                            <a href="@routes.BookController.transfersPage"><i class="fa fa-edit fa-fw"></i>Transfers</a>
                         </li>
                     </ul>
                         <!-- end side-menu -->

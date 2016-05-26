@@ -8,6 +8,7 @@ import com.avaje.ebean.SqlRow;
 import models.book.Book;
 import models.book.BookInstance;
 import models.user.LibraryUser;
+import models.user.StudentUserCategoryCharacteristic;
 import utils.Assistant;
 
 import javax.persistence.*;
@@ -63,6 +64,14 @@ public class BookTransfer extends Model {
         return "Author: " + book.author + ", Title: " + book.title +
                 ", From: " + srcDeliveryPoint.name + ", To: " + dstDeliveryPoint.name +
                 " (" + Assistant.dateToString(sendDate) + " up to " + Assistant.dateToString(receiveDate) + ")";
+    }
+
+    public static List<BookTransfer> all(){
+        return new Model.Finder(String.class, BookTransfer.class).all();
+    }
+
+    public static BookTransfer byId(Object id){
+        return (BookTransfer) new Finder(String.class, BookTransfer.class).byId(id);
     }
 
     public static List<BookTransfer> byUser(LibraryUser selectedLibraryUser) {

@@ -1,6 +1,9 @@
 package utils;
 
+import models.book.Book;
+import models.deliverypoint.DeliveryPoint;
 import models.deliverypoint.DeliveryPointType;
+import models.user.LibraryUser;
 import models.user.UserCategory;
 
 import java.text.DateFormat;
@@ -14,6 +17,12 @@ import java.util.GregorianCalendar;
  * Created by mistler on 25.05.16.
  */
 public class Assistant {
+
+    public static DeliveryPointType selectedDeliveryPointType = null;
+    public static DeliveryPoint selectedDeliveryPoint = null, selectedDeliveryPointSrc = null;
+    public static Book selectedBook = null;
+    public static UserCategory selectedUserCategory = null;
+    public static LibraryUser selectedLibraryUser = null;
 
     public static Date parseDateFromString(String str){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

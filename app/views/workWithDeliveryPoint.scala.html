@@ -11,7 +11,7 @@
 @(selectedDeliveryPoint:DeliveryPoint, deliveryPoints:List[DeliveryPoint], booksInDeliveryPoint: List[Pair[Book,Long]])
 
 @main("--> Work with delivery point"){
-    <form action="@routes.LibraryController.selectDeliveryPoint" method="post">
+    <form action="@routes.DeliveryPointController.selectDeliveryPoint" method="post">
         <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPoints.size()" required>
         @for(point <- deliveryPoints) {
             @if(selectedDeliveryPoint != null && selectedDeliveryPoint.id == point.id){

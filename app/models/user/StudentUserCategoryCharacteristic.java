@@ -2,9 +2,11 @@ package models.user;
 
 
 import com.avaje.ebean.Model;
+import models.book.Book;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by mistler on 19.05.16.
@@ -30,5 +32,13 @@ public class StudentUserCategoryCharacteristic extends Model {
         libraryUser = user;
         studentFaculty = faculty;
         studentGroup = group;
+    }
+
+    public static List<StudentUserCategoryCharacteristic> all(){
+        return new Model.Finder(String.class, StudentUserCategoryCharacteristic.class).all();
+    }
+
+    public static StudentUserCategoryCharacteristic byId(Object id){
+        return (StudentUserCategoryCharacteristic) new Finder(String.class, StudentUserCategoryCharacteristic.class).byId(id);
     }
 }
