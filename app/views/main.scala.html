@@ -51,7 +51,7 @@
                          }
                             <a href="@routes.LibraryController.instancesPage"><i class="fa fa-bar-chart-o fa-fw"></i>Instances</a>
                         </li>
-                        @if(title == "Add users" || title == "Work with user"){
+                        @if(title == "--> Add users" || title == "--> Work with user" || title == "--> Fines"){
                             <li class="active">
                         }else{
                             <li class="">
@@ -59,25 +59,35 @@
                             <a href="#"><i class="fa fa-flask fa-fw"></i>Users
                                 <span class="fa arrow" href="@routes.LibraryController.addUsersPage"></span></a>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "Add users"){
+                                    @if(title == "--> Add users"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.addUsersPage">Users add/select</a>
+                                    <a href="@routes.LibraryController.addUsersPage">--> Users add/select</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "Work with user"){
+                                    @if(title == "--> Work with user"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                         }
-                                    <a href="@routes.LibraryController.workWithUserPage">Work with user</a>
+                                    <a href="@routes.LibraryController.workWithUserPage">--> Work with user</a>
+                                </li>
+                                </ul>
+                                </ul>
+                                <ul class="nav nav-second-level">
+                                    @if(title == "--> Fines"){
+                                        <li class="selected">
+                                    }else{
+                                        <li>
+                                    }
+                                    <a href="@routes.LibraryController.userFinesPage">--> Fines</a>
                                 </li>
                                 </ul>
                         </li>
-                        @if(title == "Delivery points" || title == "Delivery point books"){
+                        @if(title == "--> Delivery points" || title == "--> Delivery point books"){
                             <li class="active">
                         }else{
                             <li class="">
@@ -85,21 +95,21 @@
                             <a href=""><i class="fa fa-table fa-fw"></i>Delivery points
                                 <span class="fa arrow" href="@routes.LibraryController.deliveryPointsPage"></span></a>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "Delivery points"){
+                                    @if(title == "--> Delivery points"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.deliveryPointsPage">Delivery points add/select</a>
+                                    <a href="@routes.LibraryController.deliveryPointsPage">--> Delivery points add/select</a>
                                 </li>
                                 </ul>
                                 <ul class="nav nav-second-level">
-                                    @if(title == "Delivery point books"){
+                                    @if(title == "--> Delivery point books"){
                                         <li class="selected">
                                     }else{
                                         <li>
                                     }
-                                    <a href="@routes.LibraryController.deliveryPointBooksPage">Books by delivery point</a>
+                                    <a href="@routes.LibraryController.deliveryPointBooksPage">--> Books by delivery point</a>
                                 </li>
                             </ul>
 

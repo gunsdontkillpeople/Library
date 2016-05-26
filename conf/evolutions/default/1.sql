@@ -94,9 +94,9 @@ create table user_category (
 create table user_fine (
   id                        bigint auto_increment not null,
   library_user_id           bigint not null,
-  start                     timestamp not null,
-  end                       timestamp not null,
-  price                     double not null,
+  start                     timestamp,
+  end                       timestamp,
+  price                     double,
   constraint pk_user_fine primary key (id))
 ;
 

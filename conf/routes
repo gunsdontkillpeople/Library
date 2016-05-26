@@ -13,19 +13,30 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 # Pages
 GET     /                           controllers.LibraryController.index
+
 GET     /books                      controllers.LibraryController.booksPage
+
 GET     /instances                  controllers.LibraryController.instancesPage
+
 GET     /addUsers                   controllers.LibraryController.addUsersPage
+GET     /workWithUser               controllers.LibraryController.workWithUserPage
+GET     /userFines                  controllers.LibraryController.userFinesPage
+
 GET     /deliveryPoints             controllers.LibraryController.deliveryPointsPage
 GET     /deliveryPointBooks         controllers.LibraryController.deliveryPointBooksPage
+
 GET     /transfers                  controllers.LibraryController.transfersPage
-GET     /workWithUser               controllers.LibraryController.workWithUserPage
 
 # Posts
 POST    /addBooks                   controllers.LibraryController.addBook
 POST    /addInstance                controllers.LibraryController.addInstance
 POST    /addDeliveryPoint           controllers.LibraryController.addDeliveryPoint
 POST    /addUser                    controllers.LibraryController.addUser
+POST    /makeTransfer               controllers.LibraryController.makeTransfer
+POST    /returnBook                 controllers.LibraryController.returnBook
+POST    /takeBook                   controllers.LibraryController.takeBook
+POST    /takeBookFromTransfer       controllers.LibraryController.takeBookFromTransfer
+POST    /resolveFine                controllers.LibraryController.resolveFine
 
 # Selects
 POST    /selectDeliveryPoint        controllers.LibraryController.selectDeliveryPoint
@@ -35,9 +46,3 @@ POST    /addDeliveryPointType       controllers.LibraryController.selectDelivery
 POST    /selectBook                 controllers.LibraryController.selectBook
 POST    /selectUserCategory         controllers.LibraryController.selectUserCategory
 POST    /selectUser                 controllers.LibraryController.selectUser
-
-# Do some work
-POST    /makeTransfer               controllers.LibraryController.makeTransfer
-POST    /returnBook                 controllers.LibraryController.returnBook
-POST    /takeBook                   controllers.LibraryController.takeBook
-POST    /takeBookFromTransfer       controllers.LibraryController.takeBookFromTransfer

@@ -21,12 +21,9 @@ public class UserFine extends Model {
     @NotNull
     public LibraryUser libraryUser;
 
-    @NotNull
-    public Date start;
+    public Date fineStart;
 
-    @NotNull
-    public Date end;
+    public Date fineEnd;
 
-    @NotNull
     public Double price;
 }

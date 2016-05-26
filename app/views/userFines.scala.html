@@ -1,0 +1,32 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+
+@import models.user.LibraryUser
+@import models.book.TakenBook
+@import utils.Pair
+@import models.book.Book
+@import models.deliverypoint.DeliveryPointType
+@import models.deliverypoint.BookTransfer
+@import models.deliverypoint.DeliveryPoint
+@import models.user.UserFine
+@(selectedUser:LibraryUser, userFines:List[UserFine])
+
+@main("--> Fines"){
+    @if(selectedUser != null && userFines != null){
+        <label>Here are fines that you currently have!</label><br>
+        <form action="@routes.LibraryController.resolveFine" method="post">
+            <p><select multiple="multiple" class="form-control" name="TakenBooks" size="@userFines.size()" required>
+            @for(fine <- userFines) {
+                <option value="@fine.id">@fine.toString()
+            }
+            </select>
+                <br><button type="submit" class="btn btn-primary">Resolve fine</button>
+        </form>
+    }else{
+        <p>User is not specified</p><br>
+    }
+}

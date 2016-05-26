@@ -85,6 +85,10 @@ public class LibraryController extends Controller {
         return ok(workWithUser.render(selectedLibraryUser, takenBooks, bookInstances, transfers, selectedDeliveryPoint));
     }
 
+    public Result userFinesPage() {
+        return play.mvc.Results.TODO;
+    }
+
     public Result deliveryPointsPage() {
         List<DeliveryPoint> points = new Model.Finder(String.class, DeliveryPoint.class).all();
         List<DeliveryPointType> pointTypes = new Model.Finder(String.class, DeliveryPointType.class).all();
@@ -165,55 +169,6 @@ public class LibraryController extends Controller {
         return redirect(routes.LibraryController.addUsersPage());
     }
 
-    public Result selectDeliveryPoint() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
-        return redirect(routes.LibraryController.deliveryPointsPage());
-    }
-
-    public Result selectDeliveryPointSrc() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedDeliveryPointSrc = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
-        return redirect(routes.LibraryController.transfersPage());
-    }
-
-    public Result selectDeliveryPointDst() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
-        return redirect(routes.LibraryController.transfersPage());
-    }
-
-    public Result selectDeliveryPointType() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedDeliveryPointType = (DeliveryPointType) new Model.Finder(String.class, DeliveryPointType.class).byId(data.get("Delivery Points"));
-        return redirect(routes.LibraryController.deliveryPointsPage());
-    }
-
-    public Result selectBook() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedBook = (Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"));
-        return redirect(routes.LibraryController.instancesPage());
-    }
-
-    public Result selectUserCategory() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedUserCategory = (UserCategory) new Model.Finder(String.class, UserCategory.class).byId(data.get("UserCategory"));
-        return redirect(routes.LibraryController.addUsersPage());
-    }
-
-    public Result selectUser() {
-        DynamicForm form = Form.form().bindFromRequest();
-        Map<String, String> data = form.data();
-        selectedLibraryUser = (LibraryUser) new Model.Finder(String.class, LibraryUser.class).byId(data.get("Users"));
-        return redirect(routes.LibraryController.addUsersPage());
-    }
-
     public Result makeTransfer() {
         DynamicForm form = Form.form().bindFromRequest();
         Map<String, String> data = form.data();
@@ -272,5 +227,58 @@ public class LibraryController extends Controller {
         takenBook.save();
         bookTransfer.delete();
         return redirect(routes.LibraryController.workWithUserPage());
+    }
+
+    public Result resolveFine() {
+        return play.mvc.Results.TODO;
+    }
+
+    public Result selectDeliveryPoint() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.deliveryPointsPage());
+    }
+
+    public Result selectDeliveryPointSrc() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPointSrc = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.transfersPage());
+    }
+
+    public Result selectDeliveryPointDst() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPoint = (DeliveryPoint) new Model.Finder(String.class, DeliveryPoint.class).byId(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.transfersPage());
+    }
+
+    public Result selectDeliveryPointType() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedDeliveryPointType = (DeliveryPointType) new Model.Finder(String.class, DeliveryPointType.class).byId(data.get("Delivery Points"));
+        return redirect(routes.LibraryController.deliveryPointsPage());
+    }
+
+    public Result selectBook() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedBook = (Book) new Model.Finder(String.class, Book.class).byId(data.get("Books"));
+        return redirect(routes.LibraryController.instancesPage());
+    }
+
+    public Result selectUserCategory() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedUserCategory = (UserCategory) new Model.Finder(String.class, UserCategory.class).byId(data.get("UserCategory"));
+        return redirect(routes.LibraryController.addUsersPage());
+    }
+
+    public Result selectUser() {
+        DynamicForm form = Form.form().bindFromRequest();
+        Map<String, String> data = form.data();
+        selectedLibraryUser = (LibraryUser) new Model.Finder(String.class, LibraryUser.class).byId(data.get("Users"));
+        return redirect(routes.LibraryController.addUsersPage());
     }
 }
