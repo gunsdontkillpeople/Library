@@ -7,7 +7,7 @@
 
 @import models.deliverypoint.DeliveryPoint
 @import models.deliverypoint.DeliveryPointType
-@(deliveryPointTypes: List[DeliveryPointType], deliveryPoints:List[DeliveryPoint], deliveryPointType: DeliveryPointType, deliveryPoint: DeliveryPoint)
+@(deliveryPointTypes: List[DeliveryPointType], deliveryPoints:List[DeliveryPoint], deliveryPoint: DeliveryPoint)
 
 @main("--> Add delivery point"){
     <table class="table table-bordered" valign="top" cellspacing="20">
@@ -20,28 +20,20 @@
         <tbody>
             <tr>
                 <td valign="top">
-                    <form action="@routes.DeliveryPointController.selectDeliveryPointType" method="post">
-                        <p><select multiple="multiple" class="form-control" name="Delivery Points" size="@deliveryPointTypes.size()">
+                    <form action="@routes.DeliveryPointController.addDeliveryPoint" method="post">
+                        <label>Delivery point type</label><br>
+                        <p><select multiple="multiple" class="form-control" name="type" size="@deliveryPointTypes.size()">
                         @for(point <- deliveryPointTypes){
-                            @if(deliveryPointType != null && deliveryPointType.id == point.id) {
-                                <option value="@point.id" selected="selected">
-                            }else{
-                                <option value="@point.id">
-                            }
-                            @point.name
+                            <option value="@point.id">@point.name
                         }
                         </select>
-                            <br><button type="submit" class="btn btn-primary">Select delivery point type</button>
-                    </form>
-                    <form action="@routes.DeliveryPointController.addDeliveryPoint" method="post">
-
                         <label>Name of the point</label><br>
                         <input type="text" name="name" value="name" required/>
 
                         <label>Address</label><br>
                         <input type="text" name="address" value="address" required/>
                         <br>
-                        <br><button type="submit" class="btn btn-primary">Add @deliveryPointType.name</button>
+                        <br><button type="submit" class="btn btn-primary">Add delivery point</button>
                     </form>
                 </td>
                 <td>

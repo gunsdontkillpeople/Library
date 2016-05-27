@@ -25,7 +25,7 @@ public class DeliveryPointController extends Controller {
     public Result addDeliveryPointPage() {
         List<DeliveryPoint> points = DeliveryPoint.all();
         List<DeliveryPointType> pointTypes = DeliveryPointType.all();
-        return ok(addDeliveryPoint.render(pointTypes, points, Assistant.selectedDeliveryPointType, Assistant.selectedDeliveryPoint));
+        return ok(addDeliveryPoint.render(pointTypes, points, Assistant.selectedDeliveryPoint));
     }
 
     public Result workWithDeliveryPointPage() {
@@ -42,7 +42,7 @@ public class DeliveryPointController extends Controller {
         DeliveryPoint deliveryPoint = new DeliveryPoint();
         deliveryPoint.name = data.get("name");
         deliveryPoint.address = data.get("address");
-        deliveryPoint.deliveryPointType = Assistant.selectedDeliveryPointType;
+        deliveryPoint.deliveryPointType = DeliveryPointType.byId(data.get("type"));
         deliveryPoint.save();
         return redirect(routes.DeliveryPointController.addDeliveryPointPage());
     }
